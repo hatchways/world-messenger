@@ -21,6 +21,36 @@ Start the server
 node server
 ```
 
+## Running the tests
+
+Once the server is up and listening you can test the endpoints
+
+Registering endpoint
+```
+POST /api/users/register HTTP/1.1
+Host: localhost:5000
+Content-Type: application/x-www-form-urlencoded
+cache-control: no-cache
+
+username=testtest&email=test%40test.test&password=tester&password2=tester&language=en
+```
+Login endpoint
+```
+POST /api/users/login HTTP/1.1
+Host: localhost:5000
+Content-Type: application/x-www-form-urlencoded
+cache-control: no-cache
+
+username=testtest&password=tester
+```
+
+### And coding style tests
+
+Explain what these tests test and why
+
+```
+Give an example
+```
 ## Built With
 
 * [ExpressJS](https://expressjs.com/) - Web Framework
