@@ -1,23 +1,62 @@
 import React from 'react';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 const Register = () => (
-  <div>
-    <h1>New User</h1>
-    <form action='http://localhost:5000/api/users/register' method='post'>
-      <p>Username:</p>
-      <input type='text' name='username'></input>
-      <p>Email:</p>
-      <input type='email' name='email'></input>
-      <p>Password:</p>
-      <input type='password' name='password'></input>
-      <p>Confirm Password:</p>
-      <input type='password' name='password2'></input>
-      <p>Language:</p>
-      <input type='text' name='language'></input>
-      <br></br>
-      <input type="submit" value="Submit"></input>
-    </form>
-  </div>
+  <Grid container item direction='column' alignItems='center' spacing={3} style={{marginTop: '1rem'}}>
+
+    <Grid item>
+      <Typography variant='h2' align='center'>New User</Typography>
+    </Grid>
+
+    <Grid item>
+      <form action='http://localhost:5000/api/users/register' method='post'>
+        <Grid container item direction='column' spacing={3}>
+          <Grid item>
+            <TextField 
+              label='Username'
+              name='username'
+              type='text'
+            />
+          </Grid>
+          <Grid item>
+            <TextField 
+              label='Email'
+              name='email'
+              type='email'
+            />
+          </Grid>
+          <Grid item>
+            <TextField 
+              label='Password'
+              name='password'
+              type='password'
+            />
+          </Grid>
+          <Grid item>
+            <TextField 
+              label='Confirm Password'
+              name='password2'
+              type='password'
+            />
+          </Grid>
+          <Grid item>
+            <TextField 
+              label='Language'
+              name='language'
+              type='text'
+            />
+          </Grid>
+          <Grid item>
+            <Button variant='contained' type='submit' style={{width: '100%'}}>Submit</Button>
+          </Grid>
+        </Grid>
+      </form>
+    </Grid>
+
+  </Grid>
 );
 
 export default Register;
