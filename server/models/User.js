@@ -11,11 +11,19 @@ const UserSchema = new Schema({
     },
     email: {
         type: String,
+        lowercase: true,
+        unique: true,
         required: true
     },
     password: {
         type: String,
         required: true
+    },
+    profile: {
+        firstName: { type: String },
+        lastName: { type: String },
+        image: { type: Buffer },
+        contacts: [{ type: Schema.Types.ObjectId, ref: 'contacts'}]
     },
     language: {
         type: String,
