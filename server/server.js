@@ -10,18 +10,11 @@ const users = require("./routes/api/users");
 
 // DB Config
 const db = require("./config/keys").mongoURI;
+// Passport config
+require("./config/passport")(passport);
 
 // Initialize our app
 const app = express();
-
-// Apply the bodyParser middleware function
-app.use(
-    bodyParser.urlencoded({
-        extended: false
-    })
-);
-// Use the body-parser middleware to parse the request body as JSON
-app.use(bodyParser.json());
 
 // Connect to MongoDB
 mongoose
@@ -32,11 +25,16 @@ mongoose
     .then(() => console.log("MongoDB successfully connected"))
     .catch(err => console.log(err));
 
+// Apply the bodyParser middleware function
+app.use(
+    bodyParser.urlencoded({
+        extended: false
+    })
+);
+// Use the body-parser middleware to parse the request body as JSON
+app.use(bodyParser.json());
 // Passport middleware
 app.use(passport.initialize());
-
-// Passport config
-require("./config/passport")(passport);
 
 // Routes
 app.use("/api/users", users);

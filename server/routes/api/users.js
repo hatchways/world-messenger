@@ -19,7 +19,7 @@ router.post("/register", (req, res) => {
     // Form validation
     const { errors, isValid } = validateRegisterInput(req.body);
 
-// Check validation
+    // Check validation
     if (!isValid) {
         return res.status(400).json(errors);
     }
@@ -35,7 +35,7 @@ router.post("/register", (req, res) => {
                 language: req.body.language
             });
 
-// Hash password before saving in database
+            // Hash password before saving in database
             bcrypt.genSalt(10, (err, salt) => {
                 bcrypt.hash(newUser.password, salt, (err, hash) => {
                     if (err) throw err;
@@ -58,7 +58,7 @@ router.post("/login", (req, res) => {
 
     const { errors, isValid } = validateLoginInput(req.body);
 
-// Check validation
+    // Check validation
     if (!isValid) {
         return res.status(400).json(errors);
     }
@@ -66,14 +66,14 @@ router.post("/login", (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
-// Find user by email
+    // Find user by email
     User.findOne({ email }).then(user => {
         // Check if user exists
         if (!user) {
             return res.status(404).json({ emailnotfound: "Email not found" });
         }
 
-// Check password
+        // Check password
         bcrypt.compare(password, user.password).then(isMatch => {
             if (isMatch) {
                 // User matched
@@ -83,7 +83,7 @@ router.post("/login", (req, res) => {
                     username: user.username
                 };
 
-// Sign token
+                // Sign token
                 jwt.sign(
                     payload,
                     keys.secretOrKey,
