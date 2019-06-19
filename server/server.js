@@ -7,6 +7,7 @@ const passport = require("passport");
 
 // Pull in our api routes
 const users = require("./routes/api/users");
+const profiles = require("./routes/api/profiles");
 
 // DB Config
 const db = require("./config/keys").mongoURI;
@@ -38,6 +39,7 @@ app.use(passport.initialize());
 
 // Routes
 app.use("/api/users", users);
+app.use("/api/profiles", profiles);
 
 const port = process.env.PORT || 5000; // process.env.port is Heroku's port if you choose to deploy the app there
 
