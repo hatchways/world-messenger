@@ -5,7 +5,6 @@ const isEmpty = require("is-empty");
 // Export the function validateRegisterInput, which takes in data as a parameter
 module.exports = function validateRegisterInput(data) {
     let errors = {};
-    errors.msg = "";
 
     // Convert all empty fields to an empty string before running validation checks (validator only works with strings)
     data.username = !isEmpty(data.username) ? data.username : "";
