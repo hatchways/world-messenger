@@ -32,10 +32,12 @@ class Login extends Component {
 
     axios.post('/api/users/login', {email, password})
       .then(res => {
+        //TODO: redirect user to homepage
         const token = res.data.token;
         sessionStorage.setItem('token', token);
       })
       .catch(err => {
+        //TODO: display error msg
         console.log(err);
       })
   }
@@ -60,7 +62,7 @@ class Login extends Component {
         </Grid>
 
         <Grid item style={FormStyles.body}>
-          <form action='http://localhost:5000/api/users/login' method='post'>
+          <form>
             <Grid container direction='column' spacing={4} justify='center'>
               <Grid item>
                 <Typography variant='h4'>Welcome back!</Typography> 

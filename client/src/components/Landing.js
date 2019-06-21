@@ -27,12 +27,11 @@ const Landing = () => {
           item container 
           sm={5} 
           direction='column' 
-          alignItems='center' 
-          justify='center' 
+          alignItems='center'  
           className={classes.splash} 
           spacing={4}
         >
-          <Grid item>
+          <Grid item style={{marginTop:'16rem'}}>
             <i className='far fa-comment-dots fa-6x'></i>
           </Grid>
           <Grid item>

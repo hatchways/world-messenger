@@ -4,7 +4,7 @@ const styles = {
   },
   body: {
     width: '64%',
-    marginTop: '10rem'
+    marginTop: '6rem'
   },
   submit: {
     marginTop: '3rem'
