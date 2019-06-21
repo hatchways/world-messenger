@@ -1,41 +1,103 @@
-import React from 'react';
+import React, { Component } from 'react';
+import axios from 'axios';
+import {Link} from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
-const Login = () => (
-  <Grid container item direction='column' alignItems='center' spacing={3} style={{marginTop: '1rem'}}>
+import FormStyles from '../styles/FormStyles';
+import StyledButton from '../styles/StyledButton';
 
-    <Grid item>
-      <Typography variant='h2' align='center'>Log In</Typography> 
-    </Grid>
+const ButtonLink = React.forwardRef(
+  (props, ref) => <Link innerRef={ref} {...props} />
+);
 
-    <Grid item>
-      <form action='http://localhost:5000/api/users/login' method='post'>
-        <Grid container item direction='column' spacing={3}>
+class Login extends Component {
+  state = { 
+    email: '',
+    password: '',
+    msg: null
+  }
+
+  onChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+
+  onSubmit = e => {
+    e.preventDefault();
+
+    const { email, password } = this.state;
+
+    axios.post('/api/users/login', {email, password})
+      .then(res => {
+        const token = res.data.token;
+        sessionStorage.setItem('token', token);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  render() {
+    return (
+      <Grid 
+        item container sm
+        direction='column' 
+        alignItems='center'
+        spacing={3}  
+      >
+        <Grid item container justify='flex-end' spacing={3} alignItems='center' style={FormStyles.header}>
           <Grid item>
-            <TextField 
-              label='Email'
-              name='email'
-              type='email'
-            />
+            <Typography variant='body1'>Don't have an account?</Typography>
           </Grid>
           <Grid item>
-            <TextField 
-              label='Password'
-              name='password'
-              type='password'
-            />
-          </Grid>
-          <Grid item>
-            <Button variant='contained' type='submit' style={{width: '100%'}}>Submit</Button>
+            <StyledButton component={ButtonLink} to='/register'>
+              Create Account
+            </StyledButton>
           </Grid>
         </Grid>
-      </form>
-    </Grid>
 
-  </Grid>
-);
+        <Grid item style={FormStyles.body}>
+          <form action='http://localhost:5000/api/users/login' method='post'>
+            <Grid container direction='column' spacing={4} justify='center'>
+              <Grid item>
+                <Typography variant='h4'>Welcome back!</Typography> 
+              </Grid>
+              <Grid item>
+                <TextField 
+                  label='Email'
+                  name='email'
+                  type='email'
+                  onChange={this.onChange}
+                  value={this.state.email}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item>
+                <TextField 
+                  label='Password'
+                  name='password'
+                  type='password'
+                  onChange={this.onChange}
+                  value={this.state.password}
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
+          </form>
+        </Grid>
+
+        <Grid item style={FormStyles.submit}>
+          <StyledButton color='blue' onClick={this.onSubmit}>
+            Login
+          </StyledButton>
+        </Grid>
+    
+      </Grid>
+    );
+  }
+}
 
 export default Login;
