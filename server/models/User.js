@@ -35,5 +35,11 @@ const UserSchema = new Schema({
     }
 });
 
+UserSchema.methods.getProfile = function() {
+    return {
+        profile: this.profile,
+    };
+};
+
 // Export the model so we can access it outside of this file
 module.exports = User = mongoose.model("users", UserSchema);
