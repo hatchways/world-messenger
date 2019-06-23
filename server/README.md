@@ -53,6 +53,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkMGZmMWM3Y
 ```
 Profile update
 ```
+POST http://localhost:5000/api/profiles/profile
 Accept: */*
 Cache-Control: no-cache
 Content-Type: application/x-www-form-urlencoded
