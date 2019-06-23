@@ -13,12 +13,12 @@ module.exports = function validateRegisterInput(data) {
     // Check for empty fields, valid email formats, password requirements and confirm password equality using validator functions
     // FirstName checks
     if (Validator.isEmpty(data.firstName)) {
-        errors.username = "First name field is required";
+        errors.firstname = "First name field is required";
         errors.msg = "First name field is required";
     }
     // LastName checks
     if (Validator.isEmpty(data.lastName)) {
-        errors.username = "Last name field is required";
+        errors.lastname = "Last name field is required";
         errors.msg = "Last name field is required";
     }
 
