@@ -26,15 +26,17 @@ router.get("/profile", (req, res) => {
 // @desc Register user
 // @access Public
 router.post("/profile", (req, res) => {
-    User.findById(req.body.id)
+    User.findByIdAndUpdate(req.body.id)
         .then( (user) => {
             if(!user) {
                 return res.status(404).json({ msg: "User not found" });
             }
-            else {
-                user.profile = req.body.profile;
-                return res.status(200).json({ msg: "Profile updated"});
-            }
+            console.log(req.body);
+            user.profile.firstName = req.body.firstName;
+            user.profile.lastName = req.body.lastName;
+            user.save();
+            return res.status(200).json({ msg: "Profile updated"});
+
         })
 });
 
