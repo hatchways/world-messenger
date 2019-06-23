@@ -7,7 +7,7 @@ const App = () => {
     <div>
       <BrowserRouter>
         <Switch>
-          <Route path='/' component={Landing}/>
+          <Route path={['/', '/login', '/register']} component={Landing}/>
         </Switch>
       </BrowserRouter>
     </div>

@@ -1,4 +1,7 @@
 const styles = {
+  root: {
+    margin: 0
+  },
   header: {
     padding: '2rem'
   },

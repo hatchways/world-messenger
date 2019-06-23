@@ -49,6 +49,7 @@ class Login extends Component {
         direction='column' 
         alignItems='center'
         spacing={3}  
+        style={FormStyles.root}
       >
         <Grid item container justify='flex-end' spacing={3} alignItems='center' style={FormStyles.header}>
           <Grid item>
