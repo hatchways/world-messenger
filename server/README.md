@@ -25,32 +25,44 @@ node server
 
 Once the server is up and listening you can test the endpoints
 
-Registering endpoint
+Registering
 ```
-POST /api/users/register HTTP/1.1
-Host: localhost:5000
+POST http://localhost:5000/api/users/register
+Accept: */*
+Cache-Control: no-cache
 Content-Type: application/x-www-form-urlencoded
-cache-control: no-cache
 
-username=testtest&email=test%40test.test&password=tester&password2=tester&language=en
+username=tester&email=test@test.test&password=tester&password2=tester&language=en
 ```
-Login endpoint
+Login
 ```
-POST /api/users/login HTTP/1.1
-Host: localhost:5000
+POST http://localhost:5000/api/users/login
+Accept: */*
+Cache-Control: no-cache
 Content-Type: application/x-www-form-urlencoded
-cache-control: no-cache
 
-username=testtest&password=tester
+email=test@test.test&password=tester
+```
+Profile get
+```
+GET http://localhost:5000/api/profiles/profile
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkMGZmMWM3YjAxYjFjMzE5YzlmYWJlYyIsInVzZXJuYW1lIjoidGVzdGVyIiwiaWF0IjoxNTYxMzI2MTMxLCJleHAiOjE1OTI4ODMwNTd9.maNWu1xm56uQXZ5tYPQjtO3LqLuOpIXNeLiE3vRzuDI
+```
+Profile update
+```
+POST http://localhost:5000/api/profiles/profile
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkMGZmMWM3YjAxYjFjMzE5YzlmYWJlYyIsInVzZXJuYW1lIjoidGVzdGVyIiwiaWF0IjoxNTYxMzI2MTMxLCJleHAiOjE1OTI4ODMwNTd9.maNWu1xm56uQXZ5tYPQjtO3LqLuOpIXNeLiE3vRzuDI
+
+firstName=firstname%20updated&lastName=last%20name%20updated
 ```
 
-### And coding style tests
 
-Explain what these tests test and why
-
-```
-Give an example
-```
 ## Built With
 
 * [ExpressJS](https://expressjs.com/) - Web Framework

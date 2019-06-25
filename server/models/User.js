@@ -7,15 +7,24 @@ const UserSchema = new Schema({
     username: {
         type: String,
         minlength: 4,
-        maxlength: 20
+        maxlength: 20,
+        unique: true
     },
     email: {
         type: String,
+        lowercase: true,
+        unique: true,
         required: true
     },
     password: {
         type: String,
         required: true
+    },
+    profile: {
+        firstName: { type: String },
+        lastName: { type: String },
+        image: { type: Buffer },
+        contacts: [{ type: Schema.Types.ObjectId, ref: 'contacts'}]
     },
     language: {
         type: String,
@@ -26,6 +35,12 @@ const UserSchema = new Schema({
         default: Date.now
     }
 });
+
+UserSchema.methods.getProfile = function() {
+    return {
+        profile: this.profile,
+    };
+};
 
 // Export the model so we can access it outside of this file
 module.exports = User = mongoose.model("users", UserSchema);
