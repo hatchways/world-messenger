@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
 import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton';
+import { withStyles } from '@material-ui/styles';
 
-import FormStyles from '../styles/FormStyles';
+import styles from '../styles/FormStyles';
 import StyledButton from '../styles/StyledButton';
 
 const ButtonLink = React.forwardRef(
@@ -59,9 +60,9 @@ class Login extends Component {
         direction='column' 
         alignItems='center'
         spacing={3}  
-        style={FormStyles.root}
+        className={this.props.classes.root}
       >
-        <Grid item container justify='flex-end' spacing={3} alignItems='center' style={FormStyles.header}>
+        <Grid item container justify='flex-end' spacing={3} alignItems='center' className={this.props.classes.header}>
           <Grid item>
             <Typography variant='body1'>Don't have an account?</Typography>
           </Grid>
@@ -72,11 +73,11 @@ class Login extends Component {
           </Grid>
         </Grid>
 
-        <Grid item style={FormStyles.body}>
+        <Grid item className={this.props.classes.body}>
           <form>
             <Grid container direction='column' spacing={4} justify='center'>
               <Grid item>
-                <Typography variant='h4' style={FormStyles.title}>Welcome back!</Typography> 
+                <Typography variant='h4' className={this.props.classes.title}>Welcome back!</Typography> 
               </Grid>
               <Grid item>
                 <TextField 
@@ -106,7 +107,7 @@ class Login extends Component {
           </form>
         </Grid>
 
-        <Grid item style={FormStyles.submit}>
+        <Grid item className={this.props.classes.submit}>
           <StyledButton color='blue' onClick={this.onSubmit}>
             Login
           </StyledButton>
@@ -137,4 +138,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default withStyles(styles)(Login);

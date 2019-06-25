@@ -1,9 +1,9 @@
-const styles = {
+const formStyles = () => ({
   root: {
     margin: 0
   },
   header: {
-    padding: '2rem',
+    marginTop: '0.5rem',
     color: '#b3b3b3'
   },
   body: {
@@ -16,6 +16,6 @@ const styles = {
   submit: {
     marginTop: '3rem'
   }
-};
+});
 
-export default styles; 
+export default formStyles; 

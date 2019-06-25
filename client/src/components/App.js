@@ -1,21 +1,9 @@
 import React from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Landing from './Landing';
-import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 
-const theme = createMuiTheme({
-  typography: {
-    fontFamily: "'Open Sans', sans-serif",
-    h4: {
-      lineHeight: 1.5
-    },
-    button: {
-      textTransform: 'none',
-      fontWeight: 'bold'
-    }
-  }
-});
+import theme from '../styles/Theme';
 
 const App = () => {
   return (

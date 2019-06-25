@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -12,8 +12,9 @@ import Select from '@material-ui/core/Select';
 import Snackbar from '@material-ui/core/Snackbar';
 import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton';
+import { withStyles } from '@material-ui/styles';
 
-import FormStyles from '../styles/FormStyles';
+import styles from '../styles/FormStyles';
 import StyledButton from '../styles/StyledButton';
 import langs from '../utils/languages';
 
@@ -77,9 +78,9 @@ class Register extends Component {
         direction='column' 
         alignItems='center'
         spacing={3}
-        style={FormStyles.root}  
+        className={this.props.classes.root}  
       >
-        <Grid item container justify='flex-end' spacing={3} alignItems='center' style={FormStyles.header}>
+        <Grid item container justify='flex-end' spacing={3} alignItems='center' className={this.props.classes.header}>
           <Grid item>
             <Typography variant='body1'>Already have an account?</Typography>
           </Grid>
@@ -90,11 +91,11 @@ class Register extends Component {
           </Grid>
         </Grid>
 
-        <Grid item style={FormStyles.body}>
+        <Grid item className={this.props.classes.body}>
           <form>
             <Grid container direction='column' spacing={4} justify='center'>
               <Grid item>
-                <Typography variant='h4' style={FormStyles.title}>Create an account.</Typography> 
+                <Typography variant='h4' className={this.props.classes.title}>Create an account.</Typography> 
               </Grid>
               <Grid item>
                 <TextField 
@@ -164,7 +165,7 @@ class Register extends Component {
           </form>
         </Grid>
 
-        <Grid item style={FormStyles.submit}>
+        <Grid item className={this.props.classes.submit}>
           <StyledButton color='blue' onClick={this.onSubmit}>
             Create
           </StyledButton>
@@ -195,4 +196,4 @@ class Register extends Component {
   }
 }
 
-export default Register;
+export default withStyles(styles)(Register);
