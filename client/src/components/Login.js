@@ -4,6 +4,9 @@ import {Link} from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import Snackbar from '@material-ui/core/Snackbar';
+import Icon from '@material-ui/core/Icon'
+import IconButton from '@material-ui/core/IconButton';
 
 import FormStyles from '../styles/FormStyles';
 import StyledButton from '../styles/StyledButton';
@@ -16,7 +19,7 @@ class Login extends Component {
   state = { 
     email: '',
     password: '',
-    msg: null
+    errors: {}
   }
 
   onChange = e => {
@@ -37,9 +40,16 @@ class Login extends Component {
         sessionStorage.setItem('token', token);
       })
       .catch(err => {
-        //TODO: display error msg
-        console.log(err);
+        this.setState({
+          errors: err.response.data
+        });
       })
+  }
+
+  closeError = () => {
+    this.setState({
+      errors: {}
+    });
   }
 
   render() {
@@ -66,15 +76,17 @@ class Login extends Component {
           <form>
             <Grid container direction='column' spacing={4} justify='center'>
               <Grid item>
-                <Typography variant='h4'>Welcome back!</Typography> 
+                <Typography variant='h4' style={FormStyles.title}>Welcome back!</Typography> 
               </Grid>
               <Grid item>
                 <TextField 
-                  label='Email'
+                  label='E-mail address'
                   name='email'
                   type='email'
                   onChange={this.onChange}
                   value={this.state.email}
+                  error={this.state.errors.hasOwnProperty('email')}
+                  helperText={this.state.errors.email || ''}
                   fullWidth
                 />
               </Grid>
@@ -85,6 +97,8 @@ class Login extends Component {
                   type='password'
                   onChange={this.onChange}
                   value={this.state.password}
+                  error={this.state.errors.hasOwnProperty('password')}
+                  helperText={this.state.errors.password || ''}
                   fullWidth
                 />
               </Grid>
@@ -97,6 +111,26 @@ class Login extends Component {
             Login
           </StyledButton>
         </Grid>
+
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right'
+          }}
+          open={this.state.errors.hasOwnProperty('msg')}
+          message={this.state.errors.msg || ''}
+          onClose={this.closeError}
+          action={
+            <IconButton
+              key='close'
+              color='inherit'
+              onClick={this.closeError}
+            >
+              <Icon className='fas fa-times'/>
+            </IconButton>
+          }
+        > 
+        </Snackbar>
     
       </Grid>
     );

@@ -7,7 +7,11 @@ import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import Select from '@material-ui/core/Select';
+import Snackbar from '@material-ui/core/Snackbar';
+import Icon from '@material-ui/core/Icon'
+import IconButton from '@material-ui/core/IconButton';
 
 import FormStyles from '../styles/FormStyles';
 import StyledButton from '../styles/StyledButton';
@@ -24,7 +28,7 @@ class Register extends Component {
     password: '',
     password2: '',
     language: '',
-    msg: null
+    errors: {}
   }
 
   onChange = e => {
@@ -50,9 +54,16 @@ class Register extends Component {
         console.log(res);
       })
       .catch(err => {
-        //TODO: display error msg
-        console.log(err);
+        this.setState({
+          errors: err.response.data
+        });
       })
+  }
+
+  closeError = () => {
+    this.setState({
+      errors: {}
+    });
   }
 
   render() {
@@ -83,7 +94,7 @@ class Register extends Component {
           <form>
             <Grid container direction='column' spacing={4} justify='center'>
               <Grid item>
-                <Typography variant='h4'>Create an account.</Typography> 
+                <Typography variant='h4' style={FormStyles.title}>Create an account.</Typography> 
               </Grid>
               <Grid item>
                 <TextField 
@@ -92,6 +103,8 @@ class Register extends Component {
                   type='text'
                   onChange={this.onChange}
                   value={this.state.username}
+                  error={this.state.errors.hasOwnProperty('username')}
+                  helperText={this.state.errors.username || ''}
                   fullWidth
                 />
               </Grid>
@@ -102,6 +115,8 @@ class Register extends Component {
                   type='email'
                   onChange={this.onChange}
                   value={this.state.email}
+                  error={this.state.errors.hasOwnProperty('email')}
+                  helperText={this.state.errors.email || ''}
                   fullWidth
                 />
               </Grid>
@@ -112,6 +127,8 @@ class Register extends Component {
                   type='password'
                   onChange={this.onChange}
                   value={this.state.password}
+                  error={this.state.errors.hasOwnProperty('password')}
+                  helperText={this.state.errors.password || ''}
                   fullWidth
                 />
               </Grid>
@@ -122,11 +139,13 @@ class Register extends Component {
                   type='password'
                   onChange={this.onChange}
                   value={this.state.password2}
+                  error={this.state.errors.hasOwnProperty('password2')}
+                  helperText={this.state.errors.password2 || ''}
                   fullWidth
                 />
               </Grid>
               <Grid item>
-                <FormControl fullWidth>
+                <FormControl fullWidth error={this.state.errors.hasOwnProperty('language')}>
                   <InputLabel htmlFor='language'>Select primary language</InputLabel>
                   <Select 
                     value={this.state.language}
@@ -138,6 +157,7 @@ class Register extends Component {
                   >
                     {menuItems}
                   </Select>
+                  <FormHelperText>{this.state.errors.language || ''}</FormHelperText>
                 </FormControl>
               </Grid>
             </Grid>
@@ -149,6 +169,26 @@ class Register extends Component {
             Create
           </StyledButton>
         </Grid>
+
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right'
+          }}
+          open={this.state.errors.hasOwnProperty('msg')}
+          message={this.state.errors.msg || ''}
+          onClose={this.closeError}
+          action={
+            <IconButton
+              key='close'
+              color='inherit'
+              onClick={this.closeError}
+            >
+              <Icon className='fas fa-times'/>
+            </IconButton>
+          }
+        > 
+        </Snackbar>
     
       </Grid>
     );

@@ -16,38 +16,29 @@ module.exports = function validateRegisterInput(data) {
     // Check for empty fields, valid email formats, password requirements and confirm password equality using validator functions
     // Name checks
     if (Validator.isEmpty(data.username)) {
-        errors.username = "Name field is required";
-        errors.msg = "Name field is required";
+        errors.username = "Username field is required";
     }
     // Email checks
     if (Validator.isEmpty(data.email)) {
-        errors.email = "Email field is required";
-        errors.msg = "Email field is required";
+        errors.email = "E-mail address field is required";
     } else if (!Validator.isEmail(data.email)) {
-        errors.email = "Email is invalid";
-        errors.msg = "Email is invalid";
+        errors.email = "Invalid e-mail address";
     }
     // Password checks
     if (Validator.isEmpty(data.password)) {
         errors.password = "Password field is required";
-        errors.msg = "Password field is required";
+    } else if (!Validator.isLength(data.password, {min: 6, max: 30})) {
+        errors.password = "Password must be at least 6 characters";
     }
     if (Validator.isEmpty(data.password2)) {
         errors.password2 = "Confirm password field is required";
-        errors.msg = "Confirm password field is required";
-    }
-    if (!Validator.isLength(data.password, {min: 6, max: 30})) {
-        errors.password = "Password must be at least 6 characters";
-        errors.msg = "Password must be at least 6 characters";
     }
     if (!Validator.equals(data.password, data.password2)) {
-        errors.password2 = "Passwords must match";
-        errors.msg = "Passwords must match";
+        errors.password2 = "Passwords must match";;
     }
     // Language checks
     if (Validator.isEmpty(data.language)) {
-        errors.language = "Language is required";
-        errors.msg = "Language is required";
+        errors.language = "Language is required";;
     }
 
     // Return our errors object with any and all errors contained as well as an isValid boolean that checks to see if we have any errors

@@ -6,7 +6,8 @@ import { makeStyles } from '@material-ui/styles';
 import Register from './Register';
 import Login from './Login';
 
-import bg from '../assets/bg.jpg';
+import bg from '../assets/messenger-bg-img.png';
+import icon from '../assets/chat-bubble.png';
 
 const useStyles = makeStyles({
   root: {
@@ -14,23 +15,26 @@ const useStyles = makeStyles({
     width: '100%',
     margin: -16
   },
-  splash: {
-    backgroundImage: 'linear-gradient(#498FEE, #88BAFE)',
+  sidebar: {
+    backgroundImage: 'linear-gradient(#3A8DFF, #9BC1FB)',
     color: 'white',
     height: '100%',
     width: '100%',
     opacity: 0.92,
     margin: 0
   },
-  background: {
+  sidebarBackground: {
     backgroundImage: `url(${bg})`,
     backgroundSize: 'cover',
     height: '101%',
     width: '100%',
     margin: 0
   },
+  sidebarText: {
+    width: '70%'
+  },
   icon: {
-    marginTop: '28%'
+    marginTop: '35%'
   }
 })
 
@@ -40,19 +44,19 @@ const Landing = () => {
     <BrowserRouter>
       <Grid container spacing={0} className={classes.root}>
 
-        <Grid item sm={5} className={classes.background}>
+        <Grid item sm={5} className={classes.sidebarBackground}>
           <Grid 
             container 
             direction='column' 
             alignItems='center'  
-            className={classes.splash} 
+            className={classes.sidebar} 
             spacing={4}
           >
             <Grid item className={classes.icon}>
-              <i className='far fa-comment-dots fa-6x'></i>
+              <img src={icon} alt='icon'/>
             </Grid>
-            <Grid item>
-              <Typography variant='h3' align='center'>
+            <Grid item className={classes.sidebarText}>
+              <Typography variant='h4' align='center'>
                 Converse with anyone with any language
               </Typography>
             </Grid>
