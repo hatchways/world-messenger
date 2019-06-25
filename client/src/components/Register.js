@@ -65,7 +65,8 @@ class Register extends Component {
         item container sm
         direction='column' 
         alignItems='center'
-        spacing={3}  
+        spacing={3}
+        style={FormStyles.root}  
       >
         <Grid item container justify='flex-end' spacing={3} alignItems='center' style={FormStyles.header}>
           <Grid item>
@@ -116,7 +117,7 @@ class Register extends Component {
               </Grid>
               <Grid item>
                 <TextField 
-                  label='Confirm Password'
+                  label='Confirm password'
                   name='password2'
                   type='password'
                   onChange={this.onChange}
