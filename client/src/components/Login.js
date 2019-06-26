@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -20,7 +20,8 @@ class Login extends Component {
   state = { 
     email: '',
     password: '',
-    errors: {}
+    errors: {},
+    redirect: false
   }
 
   onChange = e => {
@@ -36,9 +37,11 @@ class Login extends Component {
 
     axios.post('/api/users/login', {email, password})
       .then(res => {
-        //TODO: redirect user to homepage
-        const token = res.data.token;
-        sessionStorage.setItem('token', token);
+        sessionStorage.setItem('token', res.data.token);
+        sessionStorage.setItem('username', res.data.user.username)
+        this.setState({
+          redirect: true
+        });
       })
       .catch(err => {
         this.setState({
@@ -54,6 +57,7 @@ class Login extends Component {
   }
 
   render() {
+    if (this.state.redirect) return <Redirect to='/home'/>;
     return (
       <Grid 
         item container sm

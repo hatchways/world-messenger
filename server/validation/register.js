@@ -34,11 +34,11 @@ module.exports = function validateRegisterInput(data) {
         errors.password2 = "Confirm password field is required";
     }
     if (!Validator.equals(data.password, data.password2)) {
-        errors.password2 = "Passwords must match";;
+        errors.password2 = "Passwords must match";
     }
     // Language checks
     if (Validator.isEmpty(data.language)) {
-        errors.language = "Language is required";;
+        errors.language = "Language is required";
     }
 
     // Return our errors object with any and all errors contained as well as an isValid boolean that checks to see if we have any errors
