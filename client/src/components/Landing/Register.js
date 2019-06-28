@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import Select from '@material-ui/core/Select';
+import Snackbar from '@material-ui/core/Snackbar';
+import Icon from '@material-ui/core/Icon'
+import IconButton from '@material-ui/core/IconButton';
+import { withStyles } from '@material-ui/styles';
 
-import FormStyles from '../styles/FormStyles';
-import StyledButton from '../styles/StyledButton';
-import langs from '../utils/languages';
+import styles from '../../styles/FormStyles';
+import StyledButton from '../../styles/StyledButton';
+import langs from '../../utils/languages';
 
 const ButtonLink = React.forwardRef(
   (props, ref) => <Link innerRef={ref} {...props} />
@@ -24,7 +29,8 @@ class Register extends Component {
     password: '',
     password2: '',
     language: '',
-    msg: null
+    errors: {},
+    redirect: false
   }
 
   onChange = e => {
@@ -45,14 +51,31 @@ class Register extends Component {
      } = this.state;
 
     axios.post('/api/users/register', {username, email, password, password2, language})
-      .then(res => {
-        //TODO: redirect user to homepage
-        console.log(res);
+      .then(() => {
+        axios
+          .post("/api/users/login", { email, password })
+          .then(res => {
+            sessionStorage.setItem("token", res.data.token);
+            sessionStorage.setItem("username", res.data.user.username);
+            this.setState({
+              redirect: true
+            });
+          })
+        .catch(err => {
+          console.log(err);
+        });
       })
       .catch(err => {
-        //TODO: display error msg
-        console.log(err);
-      })
+        this.setState({
+          errors: err.response.data
+        });
+      });
+  }
+
+  closeError = () => {
+    this.setState({
+      errors: {}
+    });
   }
 
   render() {
@@ -60,15 +83,16 @@ class Register extends Component {
     for (let lang in langs) {
       menuItems.push(<MenuItem value={lang} key={lang}>{langs[lang]}</MenuItem>)
     }
+    if (this.state.redirect) return <Redirect to="/home" />;
     return (
       <Grid 
         item container sm
         direction='column' 
         alignItems='center'
         spacing={3}
-        style={FormStyles.root}  
+        className={this.props.classes.root}  
       >
-        <Grid item container justify='flex-end' spacing={3} alignItems='center' style={FormStyles.header}>
+        <Grid item container justify='flex-end' spacing={3} alignItems='center' className={this.props.classes.header}>
           <Grid item>
             <Typography variant='body1'>Already have an account?</Typography>
           </Grid>
@@ -79,11 +103,11 @@ class Register extends Component {
           </Grid>
         </Grid>
 
-        <Grid item style={FormStyles.body}>
+        <Grid item className={this.props.classes.body}>
           <form>
             <Grid container direction='column' spacing={4} justify='center'>
               <Grid item>
-                <Typography variant='h4'>Create an account.</Typography> 
+                <Typography variant='h4' className={this.props.classes.title}>Create an account.</Typography> 
               </Grid>
               <Grid item>
                 <TextField 
@@ -92,6 +116,8 @@ class Register extends Component {
                   type='text'
                   onChange={this.onChange}
                   value={this.state.username}
+                  error={this.state.errors.hasOwnProperty('username')}
+                  helperText={this.state.errors.username || ''}
                   fullWidth
                 />
               </Grid>
@@ -102,6 +128,8 @@ class Register extends Component {
                   type='email'
                   onChange={this.onChange}
                   value={this.state.email}
+                  error={this.state.errors.hasOwnProperty('email')}
+                  helperText={this.state.errors.email || ''}
                   fullWidth
                 />
               </Grid>
@@ -112,6 +140,8 @@ class Register extends Component {
                   type='password'
                   onChange={this.onChange}
                   value={this.state.password}
+                  error={this.state.errors.hasOwnProperty('password')}
+                  helperText={this.state.errors.password || ''}
                   fullWidth
                 />
               </Grid>
@@ -122,11 +152,13 @@ class Register extends Component {
                   type='password'
                   onChange={this.onChange}
                   value={this.state.password2}
+                  error={this.state.errors.hasOwnProperty('password2')}
+                  helperText={this.state.errors.password2 || ''}
                   fullWidth
                 />
               </Grid>
               <Grid item>
-                <FormControl fullWidth>
+                <FormControl fullWidth error={this.state.errors.hasOwnProperty('language')}>
                   <InputLabel htmlFor='language'>Select primary language</InputLabel>
                   <Select 
                     value={this.state.language}
@@ -138,21 +170,42 @@ class Register extends Component {
                   >
                     {menuItems}
                   </Select>
+                  <FormHelperText>{this.state.errors.language || ''}</FormHelperText>
                 </FormControl>
               </Grid>
             </Grid>
           </form>
         </Grid>
 
-        <Grid item style={FormStyles.submit}>
+        <Grid item className={this.props.classes.submit}>
           <StyledButton color='blue' onClick={this.onSubmit}>
             Create
           </StyledButton>
         </Grid>
+
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right'
+          }}
+          open={this.state.errors.hasOwnProperty('msg')}
+          message={this.state.errors.msg || ''}
+          onClose={this.closeError}
+          action={
+            <IconButton
+              key='close'
+              color='inherit'
+              onClick={this.closeError}
+            >
+              <Icon className='fas fa-times'/>
+            </IconButton>
+          }
+        > 
+        </Snackbar>
     
       </Grid>
     );
   }
 }
 
-export default Register;
+export default withStyles(styles)(Register);

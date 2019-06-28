@@ -12,16 +12,13 @@ module.exports = function validateLoginInput(data) {
 
 // Email checks
     if (Validator.isEmpty(data.email)) {
-        errors.email = "Email field is required";
-        errors.msg = "Email field is required";
+        errors.email = "E-mail address field is required";
     } else if (!Validator.isEmail(data.email)) {
-        errors.email = "Email is invalid";
-        errors.msg = "Email is invalid";
+        errors.email = "Invalid e-mail address";
     }
 // Password checks
     if (Validator.isEmpty(data.password)) {
         errors.password = "Password field is required";
-        errors.msg = "Password field is required";
     }
 
 // Return our errors object with any and all errors contained as well as an isValid boolean that checks to see if we have any errors
