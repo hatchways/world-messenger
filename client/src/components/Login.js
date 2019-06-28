@@ -81,7 +81,7 @@ class Login extends Component {
           className={this.props.classes.header}
         >
           <Grid item>
-            <Typography variant="body1">Don't have an account?</Typography>
+            <Typography variant="body1">Dont have an account?</Typography>
           </Grid>
           <Grid item>
             <StyledButton component={ButtonLink} to="/register">

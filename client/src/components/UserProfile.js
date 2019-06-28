@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles({
   avatar: {
@@ -22,7 +23,9 @@ export default function UserProfile(props) {
   return (
     <Grid container justify="center" alignItems="center">
       <Grid item className={classes.userprofelems}>
-        <Avatar alt="Avatar" src={props.userimg} className={classes.avatar} />
+        <Button color="primary" className={classes.button}>
+          <Avatar alt="Avatar" src={props.userimg} className={classes.avatar} />{" "}
+        </Button>
       </Grid>
 
       <Grid item className={classes.userprofelems}>
