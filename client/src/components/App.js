@@ -2,8 +2,8 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/styles";
 
-import Home from "./Home";
-import Landing from "./Landing";
+import Home from "./Home/Home";
+import Landing from "./Landing/Landing";
 import theme from "../styles/Theme";
 
 const App = () => {

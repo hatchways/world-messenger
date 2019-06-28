@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -14,9 +14,9 @@ import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/styles';
 
-import styles from '../styles/FormStyles';
-import StyledButton from '../styles/StyledButton';
-import langs from '../utils/languages';
+import styles from '../../styles/FormStyles';
+import StyledButton from '../../styles/StyledButton';
+import langs from '../../utils/languages';
 
 const ButtonLink = React.forwardRef(
   (props, ref) => <Link innerRef={ref} {...props} />
@@ -29,7 +29,8 @@ class Register extends Component {
     password: '',
     password2: '',
     language: '',
-    errors: {}
+    errors: {},
+    redirect: false
   }
 
   onChange = e => {
@@ -50,15 +51,25 @@ class Register extends Component {
      } = this.state;
 
     axios.post('/api/users/register', {username, email, password, password2, language})
-      .then(res => {
-        //TODO: redirect user to homepage
-        console.log(res);
+      .then(() => {
+        axios
+          .post("/api/users/login", { email, password })
+          .then(res => {
+            sessionStorage.setItem("token", res.data.token);
+            sessionStorage.setItem("username", res.data.user.username);
+            this.setState({
+              redirect: true
+            });
+          })
+        .catch(err => {
+          console.log(err);
+        });
       })
       .catch(err => {
         this.setState({
           errors: err.response.data
         });
-      })
+      });
   }
 
   closeError = () => {
@@ -72,6 +83,7 @@ class Register extends Component {
     for (let lang in langs) {
       menuItems.push(<MenuItem value={lang} key={lang}>{langs[lang]}</MenuItem>)
     }
+    if (this.state.redirect) return <Redirect to="/home" />;
     return (
       <Grid 
         item container sm

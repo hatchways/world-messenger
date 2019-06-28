@@ -6,10 +6,8 @@ import { withStyles } from "@material-ui/styles";
 import Register from "./Register";
 import Login from "./Login";
 
-import icon from "../assets/chat-bubble.png";
-import styles from "../styles/LandingStyles";
-
-import home from "./Home";
+import icon from "../../assets/chat-bubble.png";
+import styles from "../../styles/LandingStyles";
 
 const Landing = props => {
   return (
@@ -36,7 +34,6 @@ const Landing = props => {
       <Switch>
         <Route path="/register" component={Register} />
         <Route path={["/", "/login"]} component={Login} />
-        <Route exact path={["/home"]} component={home} />
       </Switch>
     </Grid>
   );

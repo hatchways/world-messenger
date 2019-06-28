@@ -1,25 +1,22 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-
-import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
-
-import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import Badge from "@material-ui/core/Badge";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Link from "@material-ui/core/Link";
+// import Typography from "@material-ui/core/Typography";
+// import IconButton from "@material-ui/core/IconButton";
+// import Badge from "@material-ui/core/Badge";
+// import Container from "@material-ui/core/Container";
+// import Grid from "@material-ui/core/Grid";
+// import Paper from "@material-ui/core/Paper";
+// import Link from "@material-ui/core/Link";
 //Components
-import ChatWindow from "./ChatWindow";
-import ChatBanner from "./ChatBanner";
-import UserProfile from "./UserProfile";
-import ContactSheet from "./ContactSheet";
-import Search from "./Search";
-import Invites from "./Invites";
+import ChatWindow from "./Chat/ChatWindow";
+import ChatBanner from "./Chat/ChatBanner";
+import UserProfile from "./Profile/UserProfile";
+import ContactSheet from "./Contacts/ContactSheet";
+import Search from "./Contacts/Search";
+import Invites from "./Contacts/Invites";
 
 // const drawerWidth = 240;
 

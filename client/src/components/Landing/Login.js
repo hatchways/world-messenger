@@ -9,8 +9,8 @@ import Icon from "@material-ui/core/Icon";
 import IconButton from "@material-ui/core/IconButton";
 import { withStyles } from "@material-ui/styles";
 
-import styles from "../styles/FormStyles";
-import StyledButton from "../styles/StyledButton";
+import styles from "../../styles/FormStyles";
+import StyledButton from "../../styles/StyledButton";
 
 const ButtonLink = React.forwardRef((props, ref) => (
   <Link innerRef={ref} {...props} />
@@ -46,7 +46,7 @@ class Login extends Component {
       })
       .catch(err => {
         this.setState({
-          // errors: err.response.data
+          errors: err.response.data
         });
       });
   };
