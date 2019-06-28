@@ -1,14 +1,13 @@
 const sgMail = require('@sendgrid/mail');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const keys = require("../config/keys");
 
 const saltRounds = 10;
 
 // set te sgMail service api key
 sgMail.setApiKey(
-  process.env.SENDGRID_API_KEY ||
-    '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'
-);
+  process.env.SENDGRID_API_KEY || keys.sgMailAPI);
 
 /**
  * Send the invite friend email to the friend's email address
