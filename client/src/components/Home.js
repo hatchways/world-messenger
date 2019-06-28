@@ -18,8 +18,12 @@ import ChatWindow from "./ChatWindow";
 import ChatBanner from "./ChatBanner";
 import UserProfile from "./UserProfile";
 import ContactSheet from "./ContactSheet";
-import Search from "./Search";
 import Invites from "./Invites";
+import axios from "axios";
+
+// }
+
+//
 
 // const drawerWidth = 240;
 
@@ -97,7 +101,10 @@ class Home extends Component {
     super(props);
     this.state = {
       token: sessionStorage.getItem("token"),
-      username: sessionStorage.getItem("username")
+      username: sessionStorage.getItem("username"),
+      userimg: sessionStorage.getItem("userimg"),
+      contacts: sessionStorage.getItem("contacts"),
+      invites: sessionStorage.getItem("invites")
     };
   }
 
@@ -115,13 +122,15 @@ class Home extends Component {
           <div
           // className={classes.drawerStyle}
           >
-            <UserProfile />
+            <UserProfile
+              username={this.state.username}
+              userimg={this.state.userimg}
+            />
             <br />
             <br />
 
             <Divider />
             <Divider />
-            <Search />
             <Invites />
             <ContactSheet />
           </div>

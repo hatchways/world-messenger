@@ -16,18 +16,18 @@ const useStyles = makeStyles({
   }
 });
 
-export default function UserProfile() {
+export default function UserProfile(props) {
   const classes = useStyles();
 
   return (
     <Grid container justify="center" alignItems="center">
       <Grid item className={classes.userprofelems}>
-        <Avatar alt="avatar" className={classes.avatar} />
+        <Avatar alt="Avatar" src={props.userimg} className={classes.avatar} />
       </Grid>
 
       <Grid item className={classes.userprofelems}>
         <Typography variant="h6" gutterBottom>
-          User
+          {props.username}
         </Typography>
       </Grid>
     </Grid>

@@ -5,6 +5,12 @@ import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
+function searchContacts() {
+  //access contacts
+  //filter
+  //display in invites
+}
+
 const useStyles = makeStyles(theme => ({
   container: {
     display: "flex",
@@ -33,11 +39,12 @@ const Invites = () => {
         </Button>
         <form className={classes.container} noValidate autoComplete="off">
           <TextField
-            id=""
+            id="searchText"
             label="Search"
             className={classes.textField}
             margin="normal"
             variant="outlined"
+            onChange={searchContacts()}
           />
         </form>
       </Box>
