@@ -40,11 +40,11 @@ router.post("/request", passport.authenticate('jwt', {session: false}), async (r
         {upsert: true, new: true}
     );
 
-    const updateRequester = await User.findOneAndUpdate(
+    await User.findOneAndUpdate(
         {_id: Requester.id},
         { $push: { contacts: docRequester._id }}
     );
-    const updateRecipient = await User.findOneAndUpdate(
+    await User.findOneAndUpdate(
         {_id: Recipient.id},
         { $push: { contacts: docRecipient._id }}
     );
@@ -54,30 +54,31 @@ router.post("/request", passport.authenticate('jwt', {session: false}), async (r
 // @route POST api/contacts/accept
 // @desc Register user
 // @access Public
-router.post("/accept", passport.authenticate('jwt', {session: false}), (req, res) => {
+router.post("/accept", passport.authenticate('jwt', {session: false}), async (req, res) => {
 
     //Get requester and recipient
-    const Requester = User.findById(req.user.id)
-        .then((user) => {
-            if (!user) {
-                return res.sendStatus(400);
-            }
-        });
-    const Recipient = User.findOne({email: req.body.email})
-        .then((user) => {
-            if (!user) {
-                return res.sendStatus(400);
-            }
-        });
+    await User.findById(req.user.id, (error, userReq) => {
+        if(error) {
+            return console.log(`Error has occurred: ${error}`);
+        }
+        Requester = userReq;
+    });
+    await User.findOne({email: req.body.email}, (error, userRec) => {
+        if(error) {
+            return console.log(`Error has occurred: ${error}`);
+        }
+        Recipient = userRec;
+    });
 
-    Contact.findOneAndUpdate(
+    await Contact.findOneAndUpdate(
         { requester: Requester, recipient: Recipient },
         { $set: { status: 3 }}
     );
-    Contact.findOneAndUpdate(
+    await Contact.findOneAndUpdate(
         { recipient: Requester, requester: Recipient },
         { $set: { status: 3 }}
     );
+    return res.status(200).json({ msg: "Concact acccepted"});
 });
 
 module.exports = router;
