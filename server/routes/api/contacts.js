@@ -9,8 +9,19 @@ require("../../config/passport")(passport);
 const User = require("../../models/User");
 const Contact = require("../../models/Contact");
 
+// @route GET api/contacts/
+// @desc Get all contacts
+// @access public
+router.get("/", passport.authenticate('jwt', {session: false}), async (req, res) => {
+
+    //TODO implement
+    //return all contacts online
+
+});
+
+
 // @route POST api/contacts/request
-// @desc Register user
+// @desc request contact
 // @access Public
 router.post("/request", passport.authenticate('jwt', {session: false}), async (req, res) => {
 
@@ -52,7 +63,7 @@ router.post("/request", passport.authenticate('jwt', {session: false}), async (r
 });
 
 // @route POST api/contacts/accept
-// @desc Register user
+// @desc accept contact
 // @access Public
 router.post("/accept", passport.authenticate('jwt', {session: false}), async (req, res) => {
 
@@ -80,5 +91,42 @@ router.post("/accept", passport.authenticate('jwt', {session: false}), async (re
     );
     return res.status(200).json({ msg: "Concact acccepted"});
 });
+
+// @route POST api/contacts/reject
+// @desc reject contact
+// @access Public
+router.post("/reject", passport.authenticate('jwt', {session: false}), async (req, res) => {
+
+    //Get requester and recipient
+    await User.findById(req.user.id, (error, userReq) => {
+        if(error) {
+            return console.log(`Error has occurred: ${error}`);
+        }
+        Requester = userReq;
+    });
+    await User.findOne({email: req.body.email}, (error, userRec) => {
+        if(error) {
+            return console.log(`Error has occurred: ${error}`);
+        }
+        Recipient = userRec;
+    });
+
+    const docA = await Friend.findOneAndRemove(
+        { requester: Requester, recipient: Recipient }
+    );
+    const docB = await Friend.findOneAndRemove(
+        { recipient: Requester, requester: Recipient }
+    );
+    await User.findOneAndUpdate(
+        { _id: Requester.id },
+        { $pull: { contacts: docA._id }}
+    );
+    await User.findOneAndUpdate(
+        { _id: Recipient.id },
+        { $pull: { contacts: docB._id }}
+    )
+
+});
+
 
 module.exports = router;
