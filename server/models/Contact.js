@@ -1,6 +1,7 @@
 // Pull in our required dependencies
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+mongoose.set('useFindAndModify', false);
 
 // Create a Schema to represent a Contact, defining fields and types as objects of the Schema
 const ContactSchema = new Schema({

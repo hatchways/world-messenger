@@ -23,9 +23,12 @@ const UserSchema = new Schema({
     profile: {
         firstName: { type: String },
         lastName: { type: String },
-        image: { type: Buffer },
-        contacts: [{ type: Schema.Types.ObjectId, ref: 'contacts'}]
+        image: { type: Buffer }
     },
+    contacts: [{
+        type: Schema.Types.ObjectId,
+        ref: 'contacts'}]
+    ,
     language: {
         type: String,
         required: true

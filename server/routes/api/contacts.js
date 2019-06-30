@@ -14,10 +14,19 @@ const Contact = require("../../models/Contact");
 // @access Public
 router.post("/request", passport.authenticate('jwt', {session: false}), async (req, res) => {
 
-    //TODO fix queries
     //Get requester and recipient
-    const Requester = User.findById(req.user.id);
-    const Recipient = await User.findOne({email: req.body.email});
+    await User.findById(req.user.id, (error, userReq) => {
+        if(error) {
+            return console.log(`Error has occurred: ${error}`);
+        }
+        Requester = userReq;
+    });
+    await User.findOne({email: req.body.email}, (error, userRec) => {
+        if(error) {
+            return console.log(`Error has occurred: ${error}`);
+        }
+        Recipient = userRec;
+    });
 
     //Make contacts
     const docRequester = await Contact.findOneAndUpdate(
@@ -30,14 +39,16 @@ router.post("/request", passport.authenticate('jwt', {session: false}), async (r
         {$set: {status: 2}},
         {upsert: true, new: true}
     );
+
     const updateRequester = await User.findOneAndUpdate(
-        {_id: Requester},
-        {$push: {friends: docRequester._id}}
+        {_id: Requester.id},
+        { $push: { contacts: docRequester._id }}
     );
     const updateRecipient = await User.findOneAndUpdate(
-        {_id: Recipient},
-        {$push: {friends: docRecipient._id}}
+        {_id: Recipient.id},
+        { $push: { contacts: docRecipient._id }}
     );
+    return res.status(200).json({ msg: "Request sent"});
 });
 
 // @route POST api/contacts/accept
