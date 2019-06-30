@@ -4,8 +4,16 @@ const Schema = mongoose.Schema;
 
 // Create a Schema to represent a Contact, defining fields and types as objects of the Schema
 const ContactSchema = new Schema({
-    requester: { type: Schema.Types.ObjectId, ref: 'users'},
-    recipient: { type: Schema.Types.ObjectId, ref: 'users'},
+    requester: {
+        type: Schema.Types.ObjectId,
+        ref: 'users',
+        required: true
+    },
+    recipient: {
+        type: Schema.Types.ObjectId,
+        ref: 'users',
+        required: true
+    },
     status: {
         type: Number,
         enums: [
@@ -13,9 +21,10 @@ const ContactSchema = new Schema({
             1,    //'requested',
             2,    //'pending',
             3,    //'contact connected'
-        ]
+        ],
+        required: true
     }
 }, {timestamps: true});
 
 // Export the model so we can access it outside of this file
-module.exports = mongoose.model('contacts', ContactSchema);
+module.exports = Contact = mongoose.model('contacts', ContactSchema);
