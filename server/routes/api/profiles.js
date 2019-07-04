@@ -5,7 +5,6 @@ const passport = require("passport");
 const jwt = require('jsonwebtoken');
 require("../../config/passport")(passport);
 const multer = require('multer');
-const upload = multer({storage: storage});
 
 // Sets up where to store POST images
 const storage = multer.diskStorage({
@@ -13,6 +12,7 @@ const storage = multer.diskStorage({
         cb(null, 'uploads/')
     }
 });
+const upload = multer({storage: storage});
 
 // Load User model
 const User = require("../../models/User");
