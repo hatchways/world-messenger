@@ -21,18 +21,25 @@ const UserSchema = new Schema({
         required: true
     },
     profile: {
-        firstName: { type: String },
-        lastName: { type: String },
-        image: { type: Buffer }
+        firstName: {
+            type: String
+        },
+        lastName: {
+            type: String
+        },
+        image: {
+            data: Buffer,
+            type: String
+        },
+        language: {
+            type: String,
+            required: true
+        }
     },
     contacts: [{
         type: Schema.Types.ObjectId,
         ref: 'contacts'}]
     ,
-    language: {
-        type: String,
-        required: true
-    },
     dateCreated: {
         type: Date,
         default: Date.now
