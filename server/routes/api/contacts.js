@@ -21,7 +21,6 @@ router.get("/list", passport.authenticate('jwt', {session: false}), async (req, 
         userRequester = userReq;
     });
 
-    let contactList = [];
     await Contact.find({requester: userRequester}, {recipient: true, status: true})
         .populate('recipient', 'username')
         .then(contacts => {
