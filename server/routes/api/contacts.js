@@ -23,26 +23,10 @@ router.get("/list", passport.authenticate('jwt', {session: false}), async (req, 
 
     let contactList = [];
     await Contact.find({requester: userRequester}, {recipient: true, status: true})
+        .populate('recipient', 'username')
         .then(contacts => {
-
-                contacts.forEach(function (item) {
-                    User.findById(item.recipient.toString(), {username: true})
-                        .then(username => {
-                            var contactstatus = {
-                                username: username.username,
-                                status: item.status
-                            };
-                            contactList.push(contactstatus);
-                            console.log(contactList);
-                        }, function (err) {
-                            console.log(err);
-                        });
-                });
-            // return res.json({
-            //     contacts: contactList
-            // });
-            }
-        );
+            res.json(contacts);
+        });
 });
 
 
