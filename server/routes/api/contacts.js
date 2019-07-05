@@ -9,7 +9,7 @@ require("../../config/passport")(passport);
 const User = require("../../models/User");
 const Contact = require("../../models/Contact");
 
-// @route GET api/contacts/
+// @route GET api/contacts/list
 // @desc returns an array of object{username, status}
 // @access public
 router.get("/list", passport.authenticate('jwt', {session: false}), async (req, res) => {
