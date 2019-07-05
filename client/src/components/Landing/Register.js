@@ -14,7 +14,7 @@ import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/styles';
 
-import styles from '../../styles/FormStyles';
+import styles from '../../styles/Landing/FormStyles';
 import StyledButton from '../../styles/StyledButton';
 import langs from '../../utils/languages';
 
@@ -56,7 +56,7 @@ class Register extends Component {
           .post("/api/users/login", { email, password })
           .then(res => {
             sessionStorage.setItem("token", res.data.token);
-            sessionStorage.setItem("username", res.data.user.username);
+            sessionStorage.setItem("username", res.data.username);
             this.setState({
               redirect: true
             });

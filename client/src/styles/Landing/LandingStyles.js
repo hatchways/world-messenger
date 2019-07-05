@@ -1,4 +1,4 @@
-import bg from '../assets/messenger-bg-img.png';
+import bg from '../../assets/messenger-bg-img.png';
 
 const landingStyles = () => ({
   root: {

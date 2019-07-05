@@ -3,11 +3,12 @@ import { Route, Switch } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/styles";
+
 import Register from "./Register";
 import Login from "./Login";
 
 import icon from "../../assets/chat-bubble.png";
-import styles from "../../styles/LandingStyles";
+import styles from "../../styles/Landing/LandingStyles";
 
 const Landing = props => {
   return (
