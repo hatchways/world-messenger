@@ -56,7 +56,7 @@ class Register extends Component {
           .post("/api/users/login", { email, password })
           .then(res => {
             sessionStorage.setItem("token", res.data.token);
-            sessionStorage.setItem("username", res.data.user.username);
+            sessionStorage.setItem("username", res.data.username);
             this.setState({
               redirect: true
             });
