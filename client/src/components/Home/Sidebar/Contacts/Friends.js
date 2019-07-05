@@ -5,8 +5,10 @@ import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
+import { withStyles } from "@material-ui/styles";
 
 import FriendModal from './FriendModal';
+import styles from '../../../../styles/Home/Sidebar/ContactsStyles';
 
 const Friends = props => {
   const entries = (selected, select) => props.friends.map(curr => (
@@ -15,10 +17,11 @@ const Friends = props => {
       container
       spacing={3}
       alignItems='center'
-      style={{
-        padding: '0.5rem 2rem 0.5rem 2rem',
-        cursor: 'pointer'
-      }}
+      className={
+        selected === curr.username 
+        ? props.classes.friend + ' ' + props.classes.selected 
+        : props.classes.friend
+      }
       key={curr.username}
       onClick={() => {select(curr.username)}}
     >
@@ -58,11 +61,15 @@ const Friends = props => {
       container
       direction='column'
     >
-      <Modal open={open} onClose={closeModal} style={{display: 'flex', justifyContent: 'center'}}>
+      <Modal 
+        open={open} 
+        onClose={closeModal} 
+        className={props.classes.friendModal}
+      >
         <FriendModal />
       </Modal>
-      <Grid item style={{paddingLeft: '2rem', marginBottom: '0.5rem'}}>
-        <Button color='primary' onClick={openModal}>
+      <Grid item className={props.classes.addFriend}>
+        <Button color='primary' onClick={openModal} disableRipple>
           <Icon className='fas fa-plus' style={{marginRight: '0.5rem', fontSize: '1rem'}}/>
           <Typography variant='body1'>Add friend</Typography>
         </Button>
@@ -72,4 +79,4 @@ const Friends = props => {
   );
 }
 
-export default Friends;
+export default withStyles(styles)(Friends);

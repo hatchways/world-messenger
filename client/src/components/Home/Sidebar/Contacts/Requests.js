@@ -2,6 +2,9 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import { withStyles } from "@material-ui/styles";
+
+import styles from '../../../../styles/Home/Sidebar/ContactsStyles';
 
 const Requests = props => {
   const entries = props.requests.map(curr => (
@@ -10,9 +13,7 @@ const Requests = props => {
       container
       direction='column'
       spacing={1}
-      style={{
-        padding: '0.5rem 2rem 0.5rem 2rem'
-      }}
+      className={props.classes.entry}
       key={curr.username}
     >
       <Grid item>
@@ -47,4 +48,4 @@ const Requests = props => {
   );
 }
 
-export default Requests;
+export default withStyles(styles)(Requests);

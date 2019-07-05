@@ -2,10 +2,13 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import { withStyles } from "@material-ui/styles";
 
 import Friends from './Friends';
 import Requests from './Requests';
 import Pending from './Pending';
+
+import styles from '../../../../styles/Home/Sidebar/ContactsStyles';
 
 const Contacts = props => {
   const [display, setDisplay] = React.useState('friends');
@@ -23,17 +26,43 @@ const Contacts = props => {
       container
       direction='column'
     >
-      <Grid item style={{paddingLeft: '2rem'}}>
+      <Grid item className={props.classes.tabsContainer}>
         <Tabs 
           value={display} 
           onChange={toggleDisplay} 
           variant='scrollable' 
           scrollButtons='auto' 
-          TabIndicatorProps={{style: {display: 'none'}}}
+          classes={{
+            indicator: props.classes.tabsIndicator
+          }}
         >
-          <Tab value='friends' label='Friends' style={{minWidth: 0, fontSize: '1rem', paddingLeft: 0}}/>
-          <Tab value='requests' label='Requests' style={{minWidth: 0, fontSize: '1rem'}}/>
-          <Tab value='pending' label='Pending' style={{minWidth: 0, fontSize: '1rem'}}/>
+          <Tab 
+            value='friends' 
+            label='Friends' 
+            disableRipple
+            className={props.classes.tab}
+            classes={{
+              selected: props.classes.selectedTab
+            }}
+          />
+          <Tab 
+            value='requests' 
+            label='Requests'
+            disableRipple 
+            className={props.classes.tab}
+            classes={{
+              selected: props.classes.selectedTab
+            }}
+          />
+          <Tab 
+            value='pending' 
+            label='Pending'
+            disableRipple 
+            className={props.classes.tab}
+            classes={{
+              selected: props.classes.selectedTab
+            }}
+          />
         </Tabs>
       </Grid>
 
@@ -44,4 +73,4 @@ const Contacts = props => {
   );
 }
 
-export default Contacts;
+export default withStyles(styles)(Contacts);

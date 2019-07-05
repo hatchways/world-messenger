@@ -2,16 +2,9 @@ import React, { Component } from 'react';
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
+import { withStyles } from "@material-ui/styles";
 
-const style = {
-  backgroundColor: 'white',
-  width: 500,
-  height: 'auto',
-  marginTop: '6rem',
-  position: 'absolute',
-  padding: '3rem',
-  borderRadius: 10
-}
+import styles from '../../../../styles/ModalStyles';
 
 class ProfileModal extends Component {
   state = { 
@@ -27,20 +20,20 @@ class ProfileModal extends Component {
 
   render() {
     return (
-      <form style={style}>
+      <form className={this.props.classes.root}>
         <Grid
           container
           direction='column'
           alignItems='center'
           spacing={3}
         >
-          <Grid item style={{width: '100%'}}>
+          <Grid item className={this.props.classes.item}>
             <Typography variant='h4'>
               Edit Profile
             </Typography>
           </Grid>
 
-          <Grid item style={{width: '100%'}}>
+          <Grid item className={this.props.classes.item}>
             <TextField
               label='First name'
               name='firstName'
@@ -51,7 +44,7 @@ class ProfileModal extends Component {
             />
           </Grid>
 
-          <Grid item style={{width: '100%'}}>
+          <Grid item className={this.props.classes.item}>
             <TextField
               label='Last name'
               name='lastName'
@@ -62,7 +55,7 @@ class ProfileModal extends Component {
             />
           </Grid>
 
-          <Grid item style={{width: '100%'}}>
+          <Grid item className={this.props.classes.item}>
               <label htmlFor='avatar'>
                 <Typography variant='body1'>Profile picture</Typography>
               </label>
@@ -80,4 +73,4 @@ class ProfileModal extends Component {
   }
 }
 
-export default ProfileModal;
+export default withStyles(styles)(ProfileModal);

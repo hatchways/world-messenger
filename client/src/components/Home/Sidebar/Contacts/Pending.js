@@ -1,15 +1,16 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import { withStyles } from "@material-ui/styles";
+
+import styles from '../../../../styles/Home/Sidebar/ContactsStyles';
 
 const Pending = props => {
   const entries = props.pending.map(curr => (
     <Grid 
       item 
       key={curr.username}
-      style={{
-        padding: '0.5rem 2rem 0.5rem 2rem'
-      }}
+      className={props.classes.entry}
     >
       <Typography variant='body1'>
         <b>{curr.username}</b> has received your friend request
@@ -28,4 +29,4 @@ const Pending = props => {
   );
 }
 
-export default Pending;
+export default withStyles(styles)(Pending);

@@ -1,8 +1,11 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import { withStyles } from "@material-ui/styles";
 
 import Profile from './Profile/Profile';
 import Contacts from './Contacts/Contacts';
+
+import styles from '../../../styles/Home/Sidebar/SidebarStyles';
 
 const Sidebar = props => {
   return (
@@ -11,7 +14,7 @@ const Sidebar = props => {
       container
       sm={3}
       direction='column'
-      style={{backgroundColor: '#F4F6FA'}}
+      className={props.classes.root}
     >
       <Profile 
         username={props.username}
@@ -23,4 +26,4 @@ const Sidebar = props => {
   );
 }
 
-export default Sidebar;
+export default withStyles(styles)(Sidebar);

@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
+import { withStyles } from "@material-ui/styles";
 
 import Sidebar from './Sidebar/Sidebar';
 import Chat from './Chat/Chat';
 
+import styles from '../../styles/Home/HomeStyles';
 import Contacts from '../../utils/contacts.json';
 
 class Home extends Component {
@@ -22,7 +24,11 @@ class Home extends Component {
     if (!this.state.token) return <Redirect to="/login" />;
 
     return (
-      <Grid container spacing={0} style={{height: '100vh', width: '100%'}}>
+      <Grid 
+        container 
+        spacing={0} 
+        className={this.props.classes.root}
+      >
         <CssBaseline />
         <Sidebar 
           username={this.state.username}
@@ -34,4 +40,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default withStyles(styles)(Home);

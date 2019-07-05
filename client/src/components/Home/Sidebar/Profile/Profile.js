@@ -4,8 +4,11 @@ import Avatar from '@material-ui/core/Avatar';
 import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
+import { withStyles } from "@material-ui/styles";
 
 import ProfileModal from './ProfileModal';
+
+import styles from '../../../../styles/Home/Sidebar/ProfileStyles';
 
 const Profile = props => {
   const [open, setOpen] = React.useState(false);
@@ -24,18 +27,20 @@ const Profile = props => {
       container
       spacing={3}
       alignItems='center'
-      style={{
-        padding: '2rem'
-      }}
+      className={props.classes.root}
     >
-      <Modal open={open} onClose={closeModal} style={{display: 'flex', justifyContent: 'center'}}>
+      <Modal 
+        open={open} 
+        onClose={closeModal} 
+        className={props.classes.modal}
+      >
         <ProfileModal />
       </Modal>
       <Grid item>
         <Avatar 
           alt='avatar'
           onClick={openModal} 
-          style={{height: '3rem', width: '3rem', cursor: 'pointer'}}
+          className={props.classes.avatar}
         >
           <Icon className='fas fa-user' style={{textAlign: "center", fontSize: '2rem'}}/>
         </Avatar>
@@ -47,4 +52,4 @@ const Profile = props => {
   )
 };
 
-export default Profile;
+export default withStyles(styles)(Profile);
