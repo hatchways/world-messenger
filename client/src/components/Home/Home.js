@@ -96,11 +96,23 @@ class Home extends Component {
       });
   }
 
-  editProfile = (firstName, lastName) => {
+  editProfile = (firstName, lastName, profileImage) => {
     return axios
       .post('api/profiles/profile', {firstName, lastName}, {
         headers: {
           Authorization: this.state.token
+        }
+      })
+      .then(() => {
+        if (profileImage) {
+          let formData = new FormData();
+          formData.append('file', profileImage);
+          return axios.post('api/profiles/image', formData, {
+            headers: {
+              Authorization: this.state.token,
+              'Content-Type': 'multipart/form-data'
+            }
+          });
         }
       })
       .then(() => {

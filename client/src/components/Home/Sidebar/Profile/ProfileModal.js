@@ -13,6 +13,8 @@ class ProfileModal extends Component {
     lastName: this.props.profile.lastName
   }
 
+  fileInput = React.createRef();
+
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -20,7 +22,11 @@ class ProfileModal extends Component {
   };
 
   submit = () => {
-    this.props.editProfile(this.state.firstName, this.state.lastName)
+    this.props.editProfile(
+      this.state.firstName, 
+      this.state.lastName, 
+      this.fileInput.current.files[0]
+    )
       .then(() => {
         this.props.closeModal();
       })
@@ -74,7 +80,8 @@ class ProfileModal extends Component {
                 id='avatar'
                 name='avatar'
                 type='file'
-                accept="image/png, image/jpeg"
+                accept='image/png, image/jpeg'
+                ref={this.fileInput}
               />
           </Grid>
 

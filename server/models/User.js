@@ -28,8 +28,12 @@ const UserSchema = new Schema({
             type: String
         },
         image: {
-            data: Buffer,
-            type: String
+            data: {
+                type: Buffer
+            },
+            contentType: {
+                type: String
+            }
         },
         language: {
             type: String,
