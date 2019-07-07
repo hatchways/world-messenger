@@ -19,7 +19,7 @@ class Home extends Component {
       profile: {
         firstName: '',
         lastName: '',
-        image: '',
+        image: {},
         language: ''
       },
       contacts: []

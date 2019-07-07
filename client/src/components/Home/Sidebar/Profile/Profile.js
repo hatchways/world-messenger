@@ -12,6 +12,7 @@ import { withStyles } from "@material-ui/styles";
 import ProfileModal from './ProfileModal';
 
 import styles from '../../../../styles/Home/Sidebar/ProfileStyles';
+import convertBase64 from '../../../../utils/convertBase64';
 
 const Profile = props => {
   const [open, setOpen] = React.useState(false);
@@ -53,13 +54,22 @@ const Profile = props => {
         />
       </Modal>
       <Grid item>
-        <Avatar 
-          alt='avatar'
-          onClick={openModal} 
-          className={props.classes.avatar}
-        >
-          <Icon className='fas fa-user' style={{textAlign: "center", fontSize: '2rem'}}/>
-        </Avatar>
+        {props.profile.image.hasOwnProperty('data') ? (
+          <Avatar 
+            alt='avatar' 
+            src={convertBase64(props.profile.image.data.data, props.profile.image.contentType)} 
+            onClick={openModal}
+            className={props.classes.avatar} 
+          />
+        ) : (
+          <Avatar 
+            alt='avatar'
+            onClick={openModal} 
+            className={props.classes.avatar}
+          >
+            <Icon className='fas fa-user' style={{textAlign: "center", fontSize: '2rem'}}/>
+          </Avatar>
+        )}
       </Grid>
 
       <Grid item className={props.classes.username}>

@@ -13,7 +13,8 @@ const Contact = require("../../models/Contact");
 // @desc returns an array of object{username, status}
 // @access public
 router.get("/list", passport.authenticate('jwt', {session: false}), async (req, res) => {
-
+    let userRequester;
+    
     await User.findById(req.user.id, (error, userReq) => {
         if (error) {
             return console.log(`Error has occurred: ${error}`);
