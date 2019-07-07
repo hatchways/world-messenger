@@ -18,6 +18,8 @@ const Sidebar = props => {
     >
       <Profile 
         username={props.username}
+        profile={props.profile}
+        editProfile={props.editProfile}
       />
       <Contacts 
         contacts={props.contacts}

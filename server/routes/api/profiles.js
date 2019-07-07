@@ -31,7 +31,7 @@ router.get("/profile", passport.authenticate('jwt', {session: false}), (req, res
 });
 
 // @route POST api/profiles/profile
-// @desc Register user
+// @desc edit user profile
 // @access Public
 router.post("/profile", passport.authenticate('jwt', {session: false}), (req, res) => {
     User.findByIdAndUpdate(req.user.id)

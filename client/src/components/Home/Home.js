@@ -88,6 +88,21 @@ class Home extends Component {
       });
   }
 
+  editProfile = (firstName, lastName) => {
+    return axios
+      .post('api/profiles/profile', {firstName, lastName}, {
+        headers: {
+          Authorization: this.state.token
+        }
+      })
+      .then(() => {
+        this.getProfile();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   render() {
     if (!this.state.token) return <Redirect to="/login" />;
 
@@ -102,6 +117,7 @@ class Home extends Component {
           username={this.state.username}
           profile={this.state.profile}
           contacts={this.state.contacts}
+          editProfile={this.editProfile}
           requestContact={this.requestContact}
         />
         <Chat />

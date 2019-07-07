@@ -13,7 +13,8 @@ const modalStyles = () => ({
   },
   flexItem: {
     display: 'flex', 
-    alignItems: 'center', 
+    alignItems: 'center',
+    justifyContent: 'center', 
     width: '100%'
   },
   customInput: {

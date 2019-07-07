@@ -66,7 +66,10 @@ const Friends = props => {
         onClose={closeModal} 
         className={props.classes.friendModal}
       >
-        <FriendModal requestContact={props.requestContact} closeModal={closeModal}/>
+        <FriendModal 
+          requestContact={props.requestContact} 
+          closeModal={closeModal}
+        />
       </Modal>
       <Grid item className={props.classes.addFriend}>
         <Button color='primary' onClick={openModal} disableRipple>

@@ -34,7 +34,11 @@ const Profile = props => {
         onClose={closeModal} 
         className={props.classes.modal}
       >
-        <ProfileModal />
+        <ProfileModal
+          profile={props.profile} 
+          editProfile={props.editProfile}
+          closeModal={closeModal}
+        />
       </Modal>
       <Grid item>
         <Avatar 

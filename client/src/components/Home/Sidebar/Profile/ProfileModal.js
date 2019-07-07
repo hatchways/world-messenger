@@ -5,11 +5,12 @@ import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/styles";
 
 import styles from '../../../../styles/ModalStyles';
+import StyledButton from '../../../../styles/StyledButton';
 
 class ProfileModal extends Component {
   state = { 
-    firstName: '',
-    lastName: ''
+    firstName: this.props.profile.firstName,
+    lastName: this.props.profile.lastName
   }
 
   onChange = e => {
@@ -17,6 +18,16 @@ class ProfileModal extends Component {
       [e.target.name]: e.target.value
     });
   };
+
+  submit = () => {
+    this.props.editProfile(this.state.firstName, this.state.lastName)
+      .then(() => {
+        this.props.closeModal();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   render() {
     return (
@@ -65,6 +76,12 @@ class ProfileModal extends Component {
                 type='file'
                 accept="image/png, image/jpeg"
               />
+          </Grid>
+
+          <Grid item className={this.props.classes.flexItem}>
+            <StyledButton color='blue'onClick={this.submit}>
+              Save
+            </StyledButton>
           </Grid>
 
         </Grid>
