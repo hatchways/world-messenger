@@ -14,6 +14,13 @@ const profileStyles = () => ({
     '&:hover': {
       border: '3px solid #3A8DFF'
     }
+  },
+  username: {
+    flex: 1
+  },
+  menuButton: {
+    color: '#b3b3b3',
+    fontSize: '1rem'
   }
 });
 

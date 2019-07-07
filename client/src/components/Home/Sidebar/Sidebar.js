@@ -20,6 +20,7 @@ const Sidebar = props => {
         username={props.username}
         profile={props.profile}
         editProfile={props.editProfile}
+        logout={props.logout}
       />
       <Contacts 
         contacts={props.contacts}

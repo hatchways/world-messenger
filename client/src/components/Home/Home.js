@@ -73,6 +73,14 @@ class Home extends Component {
       });
   }
 
+  logout = () => {
+    sessionStorage.clear();
+    this.setState({
+      token: null,
+      contacts: []
+    });
+  }
+
   requestContact = email => {
     return axios
       .post('api/contacts/request', {email}, {
@@ -117,6 +125,7 @@ class Home extends Component {
           username={this.state.username}
           profile={this.state.profile}
           contacts={this.state.contacts}
+          logout={this.logout}
           editProfile={this.editProfile}
           requestContact={this.requestContact}
         />
