@@ -96,6 +96,21 @@ class Home extends Component {
       });
   }
 
+  updateContact = (username, type) => {
+    return axios
+      .post(`api/contacts/${type}`, {username}, {
+        headers: {
+          Authorization: this.state.token
+        }
+      })      
+      .then(() => {
+        this.getContacts();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   editProfile = (firstName, lastName, profileImage) => {
     return axios
       .post('api/profiles/profile', {firstName, lastName}, {
@@ -140,6 +155,7 @@ class Home extends Component {
           logout={this.logout}
           editProfile={this.editProfile}
           requestContact={this.requestContact}
+          updateContact={this.updateContact}
         />
         <Chat />
       </Grid>

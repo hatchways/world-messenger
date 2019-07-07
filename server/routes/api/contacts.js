@@ -14,7 +14,7 @@ const Contact = require("../../models/Contact");
 // @access public
 router.get("/list", passport.authenticate('jwt', {session: false}), async (req, res) => {
     let userRequester;
-    
+
     await User.findById(req.user.id, (error, userReq) => {
         if (error) {
             return console.log(`Error has occurred: ${error}`);
@@ -81,6 +81,7 @@ router.post("/request", passport.authenticate('jwt', {session: false}), async (r
 // @desc accept contact
 // @access Public
 router.post("/accept", passport.authenticate('jwt', {session: false}), async (req, res) => {
+    let Requester, Recipient;
 
     //Get requester and recipient
     await User.findById(req.user.id, (error, userReq) => {
@@ -89,7 +90,7 @@ router.post("/accept", passport.authenticate('jwt', {session: false}), async (re
         }
         Requester = userReq;
     });
-    await User.findOne({email: req.body.email}, (error, userRec) => {
+    await User.findOne({username: req.body.username}, (error, userRec) => {
         if (error) {
             return console.log(`Error has occurred: ${error}`);
         }
@@ -104,13 +105,14 @@ router.post("/accept", passport.authenticate('jwt', {session: false}), async (re
         {recipient: Requester, requester: Recipient},
         {$set: {status: 3}}
     );
-    return res.status(200).json({msg: "Concact acccepted"});
+    return res.status(200).json({msg: "Friend request accepted"});
 });
 
 // @route POST api/contacts/reject
 // @desc reject contact
 // @access Public
 router.post("/reject", passport.authenticate('jwt', {session: false}), async (req, res) => {
+    let Requester, Recipient;
 
     //Get requester and recipient
     await User.findById(req.user.id, (error, userReq) => {
@@ -119,7 +121,7 @@ router.post("/reject", passport.authenticate('jwt', {session: false}), async (re
         }
         Requester = userReq;
     });
-    await User.findOne({email: req.body.email}, (error, userRec) => {
+    await User.findOne({username: req.body.username}, (error, userRec) => {
         if (error) {
             return console.log(`Error has occurred: ${error}`);
         }
@@ -140,8 +142,7 @@ router.post("/reject", passport.authenticate('jwt', {session: false}), async (re
         {_id: Recipient.id},
         {$pull: {contacts: docB._id}}
     )
-
+    return res.status(200).json({msg: "Friend request declined"});
 });
-
 
 module.exports = router;
