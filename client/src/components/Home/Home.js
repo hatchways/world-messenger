@@ -73,6 +73,21 @@ class Home extends Component {
       });
   }
 
+  requestContact = email => {
+    return axios
+      .post('api/contacts/request', {email}, {
+        headers: {
+          Authorization: this.state.token
+        }
+      })
+      .then(() => {
+        this.getContacts();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   render() {
     if (!this.state.token) return <Redirect to="/login" />;
 
@@ -85,7 +100,9 @@ class Home extends Component {
         <CssBaseline />
         <Sidebar 
           username={this.state.username}
+          profile={this.state.profile}
           contacts={this.state.contacts}
+          requestContact={this.requestContact}
         />
         <Chat />
       </Grid>

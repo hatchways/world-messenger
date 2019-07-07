@@ -33,6 +33,7 @@ router.get("/list", passport.authenticate('jwt', {session: false}), async (req, 
 // @desc request contact
 // @access Public
 router.post("/request", passport.authenticate('jwt', {session: false}), async (req, res) => {
+    let Requester, Recipient;
 
     //Get requester and recipient
     await User.findById(req.user.id, (error, userReq) => {
@@ -47,6 +48,10 @@ router.post("/request", passport.authenticate('jwt', {session: false}), async (r
         }
         Recipient = userRec;
     });
+
+    if (!Recipient) {
+        return res.status(404).json({ msg: "E-mail address not found" });
+    }
 
     //Make contacts
     const docRequester = await Contact.findOneAndUpdate(
