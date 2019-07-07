@@ -3,12 +3,12 @@ import { Redirect } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
+import axios from 'axios';
 
 import Sidebar from './Sidebar/Sidebar';
 import Chat from './Chat/Chat';
 
 import styles from '../../styles/Home/HomeStyles';
-import Contacts from '../../utils/contacts.json';
 
 class Home extends Component {
   constructor(props) {
@@ -16,8 +16,61 @@ class Home extends Component {
     this.state = {
       token: sessionStorage.getItem("token"),
       username: sessionStorage.getItem("username"),
-      contacts: Contacts
+      profile: {
+        firstName: '',
+        lastName: '',
+        image: '',
+        language: ''
+      },
+      contacts: []
     };
+  }
+
+  componentDidMount() {
+    this.getProfile();
+    this.getContacts();
+  }
+
+  getProfile = () => {
+    return axios
+      .get('api/profiles/profile', {
+        headers: {
+          Authorization: this.state.token
+        }
+      })
+      .then(res => {
+        this.setState({
+          profile: {
+            ...this.state.profile,
+            ...res.data.user.profile.profile
+          }
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  getContacts = () => {
+    return axios
+      .get('api/contacts/list', {
+        headers: {
+          Authorization: this.state.token
+        }
+      })
+      .then(res => {
+        let contacts = res.data.map(curr => ({
+          username: curr.recipient.username,
+          status: curr.status
+        }));
+        
+        this.setState({
+          contacts: contacts
+        })
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   render() {
