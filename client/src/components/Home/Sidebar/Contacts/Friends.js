@@ -9,6 +9,8 @@ import { withStyles } from "@material-ui/styles";
 
 import FriendModal from './FriendModal';
 import styles from '../../../../styles/Home/Sidebar/ContactsStyles';
+import DefaultIcon from '../../../../styles/DefaultIcon';
+import convertBase64 from '../../../../utils/convertBase64';
 
 const Friends = props => {
   const entries = (selected, select) => props.friends.map(curr => (
@@ -26,12 +28,20 @@ const Friends = props => {
       onClick={() => {select(curr.username)}}
     >
       <Grid item>
-        <Avatar 
-          alt='avatar' 
-          style={{height: '3rem', width: '3rem'}}
-        >
-          <Icon className='fas fa-user' style={{textAlign: "center", fontSize: '2rem'}}/>
-        </Avatar>
+        {curr.image ? (
+          <Avatar 
+            alt='avatar' 
+            src={convertBase64(curr.image.data.data, curr.image.contentType)} 
+            className={props.classes.avatar} 
+          />
+        ) : (
+          <Avatar 
+            alt='avatar' 
+            className={props.classes.avatar}
+          >
+            <DefaultIcon />
+          </Avatar>
+        )}
       </Grid>
       <Grid item>
         <Typography variant='h5'>{curr.username}</Typography>
@@ -66,11 +76,14 @@ const Friends = props => {
         onClose={closeModal} 
         className={props.classes.friendModal}
       >
-        <FriendModal />
+        <FriendModal 
+          requestContact={props.requestContact} 
+          closeModal={closeModal}
+        />
       </Modal>
       <Grid item className={props.classes.addFriend}>
         <Button color='primary' onClick={openModal} disableRipple>
-          <Icon className='fas fa-plus' style={{marginRight: '0.5rem', fontSize: '1rem'}}/>
+          <Icon className='fas fa-plus' classes={{root: props.classes.addFriendIcon}}/>
           <Typography variant='body1'>Add friend</Typography>
         </Button>
       </Grid>

@@ -66,8 +66,8 @@ const Contacts = props => {
         </Tabs>
       </Grid>
 
-      {display === 'friends' && <Friends friends={friends} />}
-      {display === 'requests' && <Requests requests={requests} />}
+      {display === 'friends' && <Friends friends={friends} requestContact={props.requestContact}/>}
+      {display === 'requests' && <Requests requests={requests} updateContact={props.updateContact}/>}
       {display === 'pending' && <Pending pending={pending} />}
     </Grid>
   );

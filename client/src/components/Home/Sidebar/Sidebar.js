@@ -18,9 +18,14 @@ const Sidebar = props => {
     >
       <Profile 
         username={props.username}
+        profile={props.profile}
+        editProfile={props.editProfile}
+        logout={props.logout}
       />
       <Contacts 
         contacts={props.contacts}
+        requestContact={props.requestContact}
+        updateContact={props.updateContact}
       />
     </Grid>
   );

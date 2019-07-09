@@ -24,12 +24,20 @@ const Requests = props => {
 
       <Grid item container justify='center' spacing={2}>
         <Grid item>
-          <Button variant='contained' color='primary'>
+          <Button 
+            variant='contained' 
+            color='primary'
+            onClick={() => {props.updateContact(curr.username, 'accept')}}
+          >
             Accept
           </Button>
         </Grid>
         <Grid item>
-          <Button variant='contained' color='secondary'>
+          <Button 
+            variant='contained' 
+            color='secondary'
+            onClick={() => {props.updateContact(curr.username, 'reject')}}
+          >
             Decline
           </Button>
         </Grid>

@@ -5,6 +5,7 @@ const passport = require("passport");
 const jwt = require('jsonwebtoken');
 require("../../config/passport")(passport);
 const multer = require('multer');
+const fs = require('fs');
 
 // Sets up where to store POST images
 const storage = multer.diskStorage({
@@ -31,7 +32,7 @@ router.get("/profile", passport.authenticate('jwt', {session: false}), (req, res
 });
 
 // @route POST api/profiles/profile
-// @desc Register user
+// @desc edit user profile
 // @access Public
 router.post("/profile", passport.authenticate('jwt', {session: false}), (req, res) => {
     User.findByIdAndUpdate(req.user.id)
@@ -70,8 +71,10 @@ router.post("/image", passport.authenticate('jwt', {session: false}), upload.sin
                 if (!user) {
                     return res.status(404).json({msg: "User not found"});
                 }
-                user.profile.image.data = fs.readFileSync(req.file.path);
-                user.profile.image.contentType = 'image/jpeg';
+                user.profile.image = {
+                    data: fs.readFileSync(req.file.path),
+                    contentType: req.file.mimetype
+                };
                 user.save();
                 res.json({message: 'Profile image was updated'});
             }

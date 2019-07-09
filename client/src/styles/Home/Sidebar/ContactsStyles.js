@@ -29,6 +29,10 @@ const contactsStyles = () => ({
     paddingLeft: '2rem', 
     marginBottom: '0.5rem'
   },
+  addFriendIcon: {
+    marginRight: '0.5rem',
+    fontSize: '1rem'
+  },
   friend: {
     paddingLeft: '2rem',
     cursor: 'pointer',
@@ -42,6 +46,10 @@ const contactsStyles = () => ({
   selected: {
     backgroundColor: '#3A8DFF',
     color: 'white'
+  },
+  avatar: {
+    height: '3rem',
+    width: '3rem'
   }
 });
 

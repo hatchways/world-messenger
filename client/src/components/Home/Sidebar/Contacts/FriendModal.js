@@ -19,6 +19,16 @@ class FriendModal extends Component {
     });
   };
 
+  submit = () => {
+    this.props.requestContact(this.state.email)
+      .then(() => {
+        this.props.closeModal();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   render() {
     return (
       <form className={this.props.classes.root}>
@@ -43,7 +53,10 @@ class FriendModal extends Component {
               placeholder="Enter friend's email address"
               className={this.props.classes.customInput}
             />
-            <IconButton className={this.props.classes.customInputButton}>
+            <IconButton 
+              className={this.props.classes.customInputButton}
+              onClick={this.submit}
+            >
               <Icon className='fas fa-plus'/>
             </IconButton>
           </Grid>

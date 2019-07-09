@@ -13,16 +13,15 @@ const Contact = require("../../models/Contact");
 // @desc returns an array of object{username, status}
 // @access public
 router.get("/list", passport.authenticate('jwt', {session: false}), async (req, res) => {
-
-    await User.findById(req.user.id, (error, userReq) => {
+    let userRequester = await User.findById(req.user.id, (error, userReq) => {
         if (error) {
             return console.log(`Error has occurred: ${error}`);
         }
-        userRequester = userReq;
+        return userReq;
     });
 
-    await Contact.find({requester: userRequester}, {recipient: true, status: true})
-        .populate('recipient', 'username')
+    Contact.find({requester: userRequester}, {recipient: true, status: true})
+        .populate('recipient', 'username profile.image')
         .then(contacts => {
             res.json(contacts);
         });
@@ -35,18 +34,23 @@ router.get("/list", passport.authenticate('jwt', {session: false}), async (req, 
 router.post("/request", passport.authenticate('jwt', {session: false}), async (req, res) => {
 
     //Get requester and recipient
-    await User.findById(req.user.id, (error, userReq) => {
+    let Requester = await User.findById(req.user.id, (error, userReq) => {
         if (error) {
             return console.log(`Error has occurred: ${error}`);
         }
-        Requester = userReq;
+        return userReq;
     });
-    await User.findOne({email: req.body.email}, (error, userRec) => {
+
+    let Recipient = await User.findOne({email: req.body.email}, (error, userRec) => {
         if (error) {
             return console.log(`Error has occurred: ${error}`);
         }
-        Recipient = userRec;
+        return userRec;
     });
+
+    if (!Recipient) {
+        return res.status(404).json({ msg: "E-mail address not found" });
+    }
 
     //Make contacts
     const docRequester = await Contact.findOneAndUpdate(
@@ -77,17 +81,17 @@ router.post("/request", passport.authenticate('jwt', {session: false}), async (r
 router.post("/accept", passport.authenticate('jwt', {session: false}), async (req, res) => {
 
     //Get requester and recipient
-    await User.findById(req.user.id, (error, userReq) => {
+    let Requester = await User.findById(req.user.id, (error, userReq) => {
         if (error) {
             return console.log(`Error has occurred: ${error}`);
         }
-        Requester = userReq;
+        return userReq;
     });
-    await User.findOne({email: req.body.email}, (error, userRec) => {
+    let Recipient = await User.findOne({username: req.body.username}, (error, userRec) => {
         if (error) {
             return console.log(`Error has occurred: ${error}`);
         }
-        Recipient = userRec;
+        return userRec;
     });
 
     await Contact.findOneAndUpdate(
@@ -98,7 +102,7 @@ router.post("/accept", passport.authenticate('jwt', {session: false}), async (re
         {recipient: Requester, requester: Recipient},
         {$set: {status: 3}}
     );
-    return res.status(200).json({msg: "Concact acccepted"});
+    return res.status(200).json({msg: "Friend request accepted"});
 });
 
 // @route POST api/contacts/reject
@@ -107,17 +111,17 @@ router.post("/accept", passport.authenticate('jwt', {session: false}), async (re
 router.post("/reject", passport.authenticate('jwt', {session: false}), async (req, res) => {
 
     //Get requester and recipient
-    await User.findById(req.user.id, (error, userReq) => {
+    let Requester = await User.findById(req.user.id, (error, userReq) => {
         if (error) {
             return console.log(`Error has occurred: ${error}`);
         }
-        Requester = userReq;
+        return userReq;
     });
-    await User.findOne({email: req.body.email}, (error, userRec) => {
+    let Recipient = await User.findOne({username: req.body.username}, (error, userRec) => {
         if (error) {
             return console.log(`Error has occurred: ${error}`);
         }
-        Recipient = userRec;
+        return userRec;
     });
 
     const docA = await Friend.findOneAndRemove(
@@ -134,8 +138,7 @@ router.post("/reject", passport.authenticate('jwt', {session: false}), async (re
         {_id: Recipient.id},
         {$pull: {contacts: docB._id}}
     )
-
+    return res.status(200).json({msg: "Friend request declined"});
 });
-
 
 module.exports = router;
