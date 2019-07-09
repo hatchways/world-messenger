@@ -12,6 +12,7 @@ import { withStyles } from "@material-ui/styles";
 import ProfileModal from './ProfileModal';
 
 import styles from '../../../../styles/Home/Sidebar/ProfileStyles';
+import DefaultIcon from '../../../../styles/DefaultIcon';
 import convertBase64 from '../../../../utils/convertBase64';
 
 const Profile = props => {
@@ -67,7 +68,7 @@ const Profile = props => {
             onClick={openModal} 
             className={props.classes.avatar}
           >
-            <Icon className='fas fa-user' style={{textAlign: "center", fontSize: '2rem'}}/>
+            <DefaultIcon />
           </Avatar>
         )}
       </Grid>

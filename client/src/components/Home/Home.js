@@ -59,10 +59,17 @@ class Home extends Component {
         }
       })
       .then(res => {
-        let contacts = res.data.map(curr => ({
-          username: curr.recipient.username,
-          status: curr.status
-        }));
+        let contacts = res.data.map(curr => {
+          let image = null;
+          if (curr.recipient.hasOwnProperty('profile')) {
+            image = curr.recipient.profile.image;
+          }
+          return {
+            username: curr.recipient.username,
+            image: image,
+            status: curr.status
+          }
+        });
         
         this.setState({
           contacts: contacts
@@ -93,6 +100,7 @@ class Home extends Component {
       })
       .catch(err => {
         console.log(err);
+        alert(err.response.data.msg);
       });
   }
 

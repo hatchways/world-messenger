@@ -13,17 +13,15 @@ const Contact = require("../../models/Contact");
 // @desc returns an array of object{username, status}
 // @access public
 router.get("/list", passport.authenticate('jwt', {session: false}), async (req, res) => {
-    let userRequester;
-
-    await User.findById(req.user.id, (error, userReq) => {
+    let userRequester = await User.findById(req.user.id, (error, userReq) => {
         if (error) {
             return console.log(`Error has occurred: ${error}`);
         }
-        userRequester = userReq;
+        return userReq;
     });
 
-    await Contact.find({requester: userRequester}, {recipient: true, status: true})
-        .populate('recipient', 'username')
+    Contact.find({requester: userRequester}, {recipient: true, status: true})
+        .populate('recipient', 'username profile.image')
         .then(contacts => {
             res.json(contacts);
         });
@@ -34,20 +32,20 @@ router.get("/list", passport.authenticate('jwt', {session: false}), async (req, 
 // @desc request contact
 // @access Public
 router.post("/request", passport.authenticate('jwt', {session: false}), async (req, res) => {
-    let Requester, Recipient;
 
     //Get requester and recipient
-    await User.findById(req.user.id, (error, userReq) => {
+    let Requester = await User.findById(req.user.id, (error, userReq) => {
         if (error) {
             return console.log(`Error has occurred: ${error}`);
         }
-        Requester = userReq;
+        return userReq;
     });
-    await User.findOne({email: req.body.email}, (error, userRec) => {
+
+    let Recipient = await User.findOne({email: req.body.email}, (error, userRec) => {
         if (error) {
             return console.log(`Error has occurred: ${error}`);
         }
-        Recipient = userRec;
+        return userRec;
     });
 
     if (!Recipient) {
@@ -81,20 +79,19 @@ router.post("/request", passport.authenticate('jwt', {session: false}), async (r
 // @desc accept contact
 // @access Public
 router.post("/accept", passport.authenticate('jwt', {session: false}), async (req, res) => {
-    let Requester, Recipient;
 
     //Get requester and recipient
-    await User.findById(req.user.id, (error, userReq) => {
+    let Requester = await User.findById(req.user.id, (error, userReq) => {
         if (error) {
             return console.log(`Error has occurred: ${error}`);
         }
-        Requester = userReq;
+        return userReq;
     });
-    await User.findOne({username: req.body.username}, (error, userRec) => {
+    let Recipient = await User.findOne({username: req.body.username}, (error, userRec) => {
         if (error) {
             return console.log(`Error has occurred: ${error}`);
         }
-        Recipient = userRec;
+        return userRec;
     });
 
     await Contact.findOneAndUpdate(
@@ -112,20 +109,19 @@ router.post("/accept", passport.authenticate('jwt', {session: false}), async (re
 // @desc reject contact
 // @access Public
 router.post("/reject", passport.authenticate('jwt', {session: false}), async (req, res) => {
-    let Requester, Recipient;
 
     //Get requester and recipient
-    await User.findById(req.user.id, (error, userReq) => {
+    let Requester = await User.findById(req.user.id, (error, userReq) => {
         if (error) {
             return console.log(`Error has occurred: ${error}`);
         }
-        Requester = userReq;
+        return userReq;
     });
-    await User.findOne({username: req.body.username}, (error, userRec) => {
+    let Recipient = await User.findOne({username: req.body.username}, (error, userRec) => {
         if (error) {
             return console.log(`Error has occurred: ${error}`);
         }
-        Recipient = userRec;
+        return userRec;
     });
 
     const docA = await Friend.findOneAndRemove(
