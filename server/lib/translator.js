@@ -1,18 +1,16 @@
 // Allows to access env variables
-// const dotenv = require("dotenv").config(); // check if this has
+const dotenv = require("dotenv").config();
 
-// Google project_id for google translate api
-const projectId = "chatapp-1562205074869";
-// Google api key for google translate api
-const key = "AIzaSyB1uXN8xUHZrdHhRm6hxIG0zLYHuZGDDxk";
-// The text to translate
-const text = "Hello, world!";
-// The target language, we choose Russian as an example
-// language documentation: https://cloud.google.com/translate/docs/languages
-const target = "ru";
+// // Add in local .env file
+// // Google project_id for google translate api
+//projectId=""
+//// Imports the Google Cloud client library
+//key=""
 
-async function quickStart(projectId, key, target, text) {
-  // Imports the Google Cloud client library
+async function quickStart(target, text) {
+  const projectId = process.env.projectId;
+  ("[p ");
+  const key = process.env.key;
   const { Translate } = require("@google-cloud/translate");
 
   // Instantiates a client
@@ -25,13 +23,10 @@ async function quickStart(projectId, key, target, text) {
 
   //Print text
   console.log(`Text: ${text}`);
+
   //Print translation
   console.log(`Translation: ${translation}`);
+  return translation;
 }
 
-//Now remember to run this function
-quickStart(projectId, key, target, text);
-
 module.exports = quickStart;
-
-// quickStart=
