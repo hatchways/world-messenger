@@ -9,7 +9,7 @@ const dotenv = require("dotenv").config();
 
 async function quickStart(target, text) {
   const projectId = process.env.projectId;
-  ("[p ");
+
   const key = process.env.key;
   const { Translate } = require("@google-cloud/translate");
 
