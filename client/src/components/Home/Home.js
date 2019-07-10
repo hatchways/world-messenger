@@ -22,7 +22,9 @@ class Home extends Component {
         image: {},
         language: ''
       },
-      contacts: []
+      contacts: [],
+      selected: '',
+      messages: []
     };
   }
 
@@ -119,6 +121,12 @@ class Home extends Component {
       });
   }
 
+  selectContact = username => {
+    this.setState({
+      selected: username
+    });
+  }
+
   editProfile = (firstName, lastName, profileImage) => {
     return axios
       .post('api/profiles/profile', {firstName, lastName}, {
@@ -160,12 +168,22 @@ class Home extends Component {
           username={this.state.username}
           profile={this.state.profile}
           contacts={this.state.contacts}
+          selected={this.state.selected}
           logout={this.logout}
           editProfile={this.editProfile}
           requestContact={this.requestContact}
           updateContact={this.updateContact}
+          selectContact={this.selectContact}
         />
-        <Chat />
+        {this.state.selected && 
+          <Chat 
+            username={this.state.username}
+            selected={
+              this.state.contacts.find(curr => curr.username === this.state.selected) 
+            }
+            messages={this.state.messages}
+          />
+        }
       </Grid>
     );
   }

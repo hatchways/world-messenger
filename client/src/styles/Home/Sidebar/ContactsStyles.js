@@ -35,6 +35,7 @@ const contactsStyles = () => ({
   },
   friend: {
     paddingLeft: '2rem',
+    width: '100%',
     cursor: 'pointer',
     margin: 0,
     '&:hover': {

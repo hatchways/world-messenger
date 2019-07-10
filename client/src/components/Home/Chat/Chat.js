@@ -1,20 +1,28 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 
-class Chat extends Component {
-  state = {  }
-  render() {
-    return (
-      <Grid
-        item
-        container
-        sm
-        style={{backgroundColor: 'white'}}
-      >
+import ChatHeader from './ChatHeader';
+import MessageDisplay from './MessageDisplay';
+import MessageInput from './MessageInput';
 
-      </Grid>
-    );
-  }
-}
+const Chat = props => (
+  <Grid
+    item
+    container
+    sm={9}
+    direction='column'
+  >
+    <ChatHeader 
+      selected={props.selected}
+    />
+    <MessageDisplay
+      username={props.username} 
+      messages={props.messages}
+    />
+    <MessageInput
+      username={props.username}
+    />
+  </Grid>
+);
 
 export default Chat;

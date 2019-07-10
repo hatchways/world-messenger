@@ -24,8 +24,10 @@ const Sidebar = props => {
       />
       <Contacts 
         contacts={props.contacts}
+        selected={props.selected}
         requestContact={props.requestContact}
         updateContact={props.updateContact}
+        selectContact={props.selectContact}
       />
     </Grid>
   );

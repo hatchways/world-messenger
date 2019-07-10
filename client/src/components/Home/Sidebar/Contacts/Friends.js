@@ -51,18 +51,12 @@ const Friends = props => {
 
   const [open, setOpen] = React.useState(false);
 
-  const [selected, setSelected] = React.useState('');
-
   const openModal = () => {
     setOpen(true);
   }
 
   const closeModal = () => {
     setOpen(false);
-  }
-
-  const select = username => {
-    setSelected(username);
   }
 
   return (
@@ -87,7 +81,7 @@ const Friends = props => {
           <Typography variant='body1'>Add friend</Typography>
         </Button>
       </Grid>
-      {entries(selected, select)}
+      {entries(props.selected, props.selectContact)}
     </Grid>
   );
 }
