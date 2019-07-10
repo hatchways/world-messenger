@@ -4,11 +4,21 @@ const router = express.Router();
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 require("../../config/passport")(passport);
+const multer = require("multer");
+const fs = require("fs");
+
+// Sets up where to store POST images
+const storage = multer.diskStorage({
+  destination: function(req, res, cb) {
+    cb(null, "uploads/");
+  }
+});
+const upload = multer({ storage: storage });
 
 // Load User model
 const User = require("../../models/User");
 
-// @route GET api/profile
+// @route GET api/profiles/profile
 // @desc get user profile
 // @access Public
 router.get(
@@ -24,8 +34,8 @@ router.get(
   }
 );
 
-// @route POST api/profile
-// @desc Register user
+// @route POST api/profiles/profile
+// @desc edit user profile
 // @access Public
 router.post(
   "/profile",
@@ -39,6 +49,43 @@ router.post(
       user.profile.lastName = req.body.lastName;
       user.save();
       return res.status(200).json({ msg: "Profile updated" });
+    });
+  }
+);
+
+// @route GET api/profiles/image
+// @desc gets profile image
+// @access Public
+router.get("/image", passport.authenticate("jwt", { session: false }), function(
+  req,
+  res
+) {
+  User.findById(req.user.id).then(user => {
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+    res.send(user.profile.image);
+  });
+});
+
+// @route POST api/profiles/image
+// @desc upload profile image
+// @access Public
+router.post(
+  "/image",
+  passport.authenticate("jwt", { session: false }),
+  upload.single("file"),
+  function(req, res) {
+    User.findById(req.user.id).then(user => {
+      if (!user) {
+        return res.status(404).json({ msg: "User not found" });
+      }
+      user.profile.image = {
+        data: fs.readFileSync(req.file.path),
+        contentType: req.file.mimetype
+      };
+      user.save();
+      res.json({ message: "Profile image was updated" });
     });
   }
 );

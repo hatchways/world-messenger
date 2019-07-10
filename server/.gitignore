@@ -167,5 +167,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.gitignore.io/api/node,linux,macos,windows,visualstudiocode
 .env
+# Uploads folder
+/uploads
+
+# End of https://www.gitignore.io/api/node,linux,macos,windows,visualstudiocode

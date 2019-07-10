@@ -32,7 +32,9 @@ router.post("/register", (req, res) => {
                 username: req.body.username,
                 email: req.body.email,
                 password: req.body.password,
-                language: req.body.language
+                profile: {
+                    language: req.body.language
+                }
             });
 
             // Hash password before saving in database
@@ -94,7 +96,7 @@ router.post("/login", (req, res) => {
                         res.json({
                             success: true,
                             token: "Bearer " + token,
-                            user: user
+                            username: user.username
                         });
                     }
                 );
