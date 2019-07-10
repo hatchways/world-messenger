@@ -1,0 +1,19 @@
+{
+  "name": "team-leonard",
+  "version": "1.0.0",
+  "description": "A seamless UI to exchange messages between two people who speak completely different languages. Think: FB Messenger with a built-in automatic translator. If we could more easily speak to others from around the world, we would be a more inclusive and connected world!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hatchways/team-leonard.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hatchways/team-leonard/issues"
+  },
+  "homepage": "https://github.com/hatchways/team-leonard#readme"
+}

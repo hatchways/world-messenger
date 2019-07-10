@@ -40,6 +40,25 @@ class Login extends Component {
       .then(res => {
         sessionStorage.setItem("token", res.data.token);
         sessionStorage.setItem("username", res.data.user.username);
+        sessionStorage.setItem(
+          "image",
+          JSON.stringify(res.data.user.profile.image)
+        );
+        sessionStorage.setItem("id", res.data.user._id);
+        sessionStorage.setItem(
+          "firstName",
+          JSON.stringify(res.data.user.profile.firstName)
+        );
+        sessionStorage.setItem(
+          "lastName",
+          JSON.stringify(res.data.user.profile.lastName)
+        );
+
+        sessionStorage.setItem(
+          "contacts",
+          JSON.stringify(res.data.user.profile.contacts)
+        );
+
         this.setState({
           redirect: true
         });

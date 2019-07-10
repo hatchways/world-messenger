@@ -1,5 +1,6 @@
 // Allows to access env variables
-const dotenv = require("dotenv").config();
+
+// const dotenv = require("dotenv").config();
 
 // // Add in local .env file
 // // Google project_id for google translate api
