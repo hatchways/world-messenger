@@ -17,6 +17,8 @@ require("./config/passport")(passport);
 
 //translation
 const dotenv = require("dotenv").config();
+const translateService = require("./lib/translator"); //delete?
+translateService("ru", "hello"); //delete
 
 //
 //
