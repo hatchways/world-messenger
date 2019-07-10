@@ -9,7 +9,7 @@ import Icon from "@material-ui/core/Icon";
 import IconButton from "@material-ui/core/IconButton";
 import { withStyles } from "@material-ui/styles";
 
-import styles from "../../styles/FormStyles";
+import styles from "../../styles/Landing/FormStyles";
 import StyledButton from "../../styles/StyledButton";
 
 const ButtonLink = React.forwardRef((props, ref) => (
@@ -39,26 +39,7 @@ class Login extends Component {
       .post("/api/users/login", { email, password })
       .then(res => {
         sessionStorage.setItem("token", res.data.token);
-        sessionStorage.setItem("username", res.data.user.username);
-        sessionStorage.setItem(
-          "image",
-          JSON.stringify(res.data.user.profile.image)
-        );
-        sessionStorage.setItem("id", res.data.user._id);
-        sessionStorage.setItem(
-          "firstName",
-          JSON.stringify(res.data.user.profile.firstName)
-        );
-        sessionStorage.setItem(
-          "lastName",
-          JSON.stringify(res.data.user.profile.lastName)
-        );
-
-        sessionStorage.setItem(
-          "contacts",
-          JSON.stringify(res.data.user.profile.contacts)
-        );
-
+        sessionStorage.setItem("username", res.data.username);
         this.setState({
           redirect: true
         });
