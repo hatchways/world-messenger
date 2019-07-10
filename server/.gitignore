@@ -167,7 +167,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-.env
+
 # Uploads folder
 /uploads
 

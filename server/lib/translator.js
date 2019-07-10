@@ -1,4 +1,6 @@
-// Allows to access env variables
+const key = process.env.key;
+const projectId = process.env.projectId;
+const { Translate } = require("@google-cloud/translate");
 
 // const dotenv = require("dotenv").config();
 
@@ -8,12 +10,7 @@
 //// Imports the Google Cloud client library
 //key=""
 
-async function quickStart(target, text) {
-  const projectId = process.env.projectId;
-
-  const key = process.env.key;
-  const { Translate } = require("@google-cloud/translate");
-
+async function translateService(target, text) {
   // Instantiates a client
   const translate = new Translate({
     projectId,
@@ -30,4 +27,4 @@ async function quickStart(target, text) {
   return translation;
 }
 
-module.exports = quickStart;
+module.exports = translateService;
