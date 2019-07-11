@@ -14,7 +14,7 @@ const MessageSchema = new Schema({
         },
         author: {
             type: Schema.Types.ObjectId,
-            ref: 'User'
+            ref: 'users'
         },
         translated: {}
     },

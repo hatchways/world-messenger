@@ -16,7 +16,7 @@ const requireAuth = passport.authenticate('jwt', { session: false });
 // @access Public
 router.get("/", requireAuth, (req, res) => {
     // Only return one message from each conversation to display as snippet
-    Conversation.find({ participants: req.user._id })
+    Conversation.find({ participants: req.user.id })
         .select('_id')
         .exec(function(err, conversations) {
             if (err) {
@@ -30,10 +30,7 @@ router.get("/", requireAuth, (req, res) => {
                 Message.find({ 'conversationId': conversation._id })
                     .sort('-createdAt')
                     .limit(1)
-                    .populate({
-                        path: "author",
-                        select: "profile.firstName profile.lastName"
-                    })
+                    .populate('author', 'username')
                     .exec(function(err, message) {
                         if (err) {
                             res.send({ error: err });
@@ -52,15 +49,12 @@ router.get("/", requireAuth, (req, res) => {
 // @route GET api/conversations/conversation
 // @desc get user conversation based on users
 // @access Public
-router.get("/conversation", requireAuth, (req, res) => {
+router.get("/conversation/", requireAuth, (req, res) => {
 
     Message.find({ conversationId: req.body.conversationId })
         .select('createdAt body author')
         .sort('-createdAt')
-        .populate({
-            path: 'author',
-            select: 'profile.firstName profile.lastName'
-        })
+        .populate('author', 'username')
         .exec((err, messages) => {
             if (err) {
                 res.send({ error: err });
@@ -74,7 +68,7 @@ router.get("/conversation", requireAuth, (req, res) => {
 // @route POST api/conversations/conversation
 // @desc create a new message into database
 // @access Public
-router.post("/conversation", requireAuth, function (req, res, next) {
+router.post("/conversation/", requireAuth, function (req, res, next) {
     const reply = new Message({
         conversationId: req.body.conversationId,
         body: req.body.composedMessage,
@@ -116,7 +110,7 @@ router.post('/new/', requireAuth, function (req, res, next) {
         const message = new Message({
             conversationId: newConversation._id,
             body: req.body.composedMessage,
-            author: req.user._id
+            author: req.user.id
         });
         message.save((err, newMessage) => {
             if (err) {
