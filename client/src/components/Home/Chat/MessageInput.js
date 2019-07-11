@@ -18,7 +18,7 @@ class MessageInput extends Component {
 
   send = e => {
     if (e.key === 'Enter') {
-      console.log(this.state.msg);
+      this.props.sendMessage(this.state.msg);
       this.setState({
         msg: ''
       });

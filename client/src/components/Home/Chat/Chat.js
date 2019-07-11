@@ -21,6 +21,7 @@ const Chat = props => (
     />
     <MessageInput
       username={props.username}
+      sendMessage={props.sendMessage}
     />
   </Grid>
 );

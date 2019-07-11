@@ -121,6 +121,7 @@ class Home extends Component {
       });
   }
 
+  //TODO: make API request to get array of messages
   selectContact = username => {
     this.setState({
       selected: username
@@ -154,6 +155,11 @@ class Home extends Component {
       });
   }
 
+  //TODO: emit message event with socket.io
+  sendMessage = msg => {
+    console.log(msg);
+  }
+
   render() {
     if (!this.state.token) return <Redirect to="/login" />;
 
@@ -182,6 +188,7 @@ class Home extends Component {
               this.state.contacts.find(curr => curr.username === this.state.selected) 
             }
             messages={this.state.messages}
+            sendMessage={this.sendMessage}
           />
         }
       </Grid>
