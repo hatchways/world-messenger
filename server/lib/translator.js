@@ -11,13 +11,10 @@ async function translateService(target, text) {
   // Instantiates a client
   try {
     const [translation] = await translate.translate(text, target);
-    //Print text
-    console.log(`Text: ${text}`);
-    //Print translation
-    console.log(`Translation: ${translation}`);
+
     return translation;
   } catch (err) {
-    alert(err);
+    console.log(err);
   }
 }
 
