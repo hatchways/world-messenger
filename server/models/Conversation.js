@@ -7,4 +7,4 @@ const ConversationSchema = new Schema({
     participants: [{ type: Schema.Types.ObjectId, ref: 'User'}],
 });
 
-module.exports = mongoose.model('conversations', ConversationSchema);
+module.exports = Conversation = mongoose.model('conversations', ConversationSchema);
