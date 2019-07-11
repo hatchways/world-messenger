@@ -23,7 +23,7 @@ class Home extends Component {
         language: ''
       },
       contacts: [],
-      selected: '',
+      selected: null,
       messages: []
     };
   }
@@ -61,12 +61,13 @@ class Home extends Component {
         }
       })
       .then(res => {
-        let contacts = res.data.map(curr => {
+        let contacts = res.data.map((curr, index) => {
           let image = null;
           if (curr.recipient.hasOwnProperty('profile')) {
             image = curr.recipient.profile.image;
           }
           return {
+            index: index,
             username: curr.recipient.username,
             image: image,
             status: curr.status
@@ -122,9 +123,9 @@ class Home extends Component {
   }
 
   //TODO: make API request to get array of messages
-  selectContact = username => {
+  selectContact = index => {
     this.setState({
-      selected: username
+      selected: index
     });
   }
 
@@ -174,19 +175,21 @@ class Home extends Component {
           username={this.state.username}
           profile={this.state.profile}
           contacts={this.state.contacts}
-          selected={this.state.selected}
+          selected={
+            this.state.selected !== null
+              ? this.state.contacts[this.state.selected].username
+              : ''
+          }
           logout={this.logout}
           editProfile={this.editProfile}
           requestContact={this.requestContact}
           updateContact={this.updateContact}
           selectContact={this.selectContact}
         />
-        {this.state.selected && 
+        {this.state.selected !== null && 
           <Chat 
             username={this.state.username}
-            selected={
-              this.state.contacts.find(curr => curr.username === this.state.selected) 
-            }
+            selected={this.state.contacts[this.state.selected]}
             messages={this.state.messages}
             sendMessage={this.sendMessage}
           />

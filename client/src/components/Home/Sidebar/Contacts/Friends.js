@@ -25,7 +25,7 @@ const Friends = props => {
         : props.classes.friend
       }
       key={curr.username}
-      onClick={() => {select(curr.username)}}
+      onClick={() => {select(curr.index)}}
     >
       <Grid item>
         {curr.image ? (
