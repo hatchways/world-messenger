@@ -26,7 +26,7 @@ exports = module.exports = function (io) {
                 .populate('author', 'username')
                 .exec((err, messages) => {
                     if (err) {
-                        return next(err);
+                        return console.log(err);
                     }
 
                     return io.sockets.emit('refresh message', { conversation: messages });
