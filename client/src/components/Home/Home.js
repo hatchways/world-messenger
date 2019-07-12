@@ -26,6 +26,7 @@ class Home extends Component {
       contacts: [],
       selected: null,
       conversations: [],
+      conversationId: '',
       messages: [],
       client: socket()
     };
@@ -35,6 +36,7 @@ class Home extends Component {
     this.getProfile();
     this.getContacts();
     this.getConversations();
+    this.state.client.registerListener(this.receiveMessages);
   }
 
   getProfile = () => {
@@ -150,10 +152,12 @@ class Home extends Component {
       }
     })
     .then(conversationId => {
+      this.setState({
+        conversationId
+      });
       return axios({
         method: 'get',
-        url: 'api/conversations/conversation',
-        params: {conversationId},
+        url: `api/conversations/conversation/${conversationId}`,
         headers: {
           Authorization: this.state.token
         }
@@ -213,9 +217,12 @@ class Home extends Component {
       });
   }
 
-  //TODO: emit message event with socket.io
   sendMessage = msg => {
-    console.log(msg);
+    this.state.client.sendMessage(
+      this.state.conversationId,
+      msg,
+      this.state.username
+    );
   }
 
   receiveMessages = data => {

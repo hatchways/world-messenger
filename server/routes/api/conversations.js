@@ -32,11 +32,11 @@ router.get("/", requireAuth, (req, res) => {
 // @route GET api/conversations/conversation
 // @desc get list of messages for a given conversation
 // @access Public
-router.get("/conversation/", requireAuth, (req, res) => {
+router.get("/conversation/:conversationId", requireAuth, (req, res) => {
 
-    Message.find({ conversationId: req.body.conversationId })
+    Message.find({ conversationId: req.params.conversationId })
         .select('createdAt body author')
-        .sort('-createdAt')
+        .sort('createdAt')
         .populate('author', 'username')
         .exec((err, messages) => {
             if (err) {

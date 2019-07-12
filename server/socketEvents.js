@@ -1,3 +1,4 @@
+const User = require('./models/User');
 const Message = require('./models/Message');
 
 exports = module.exports = function (io) {
@@ -7,29 +8,31 @@ exports = module.exports = function (io) {
 
         socket.on('new message', (msgObject) => {
 
-            const reply = new Message({
-                conversationId: msgObject.conversationId,
-                body: msgObject.msg,
-                author: msgObject.userid
-            });
-
-            reply.save((err, sentReply) => {
+            User.findOne({username: msgObject.username}, (err, res) => {
                 if (err) {
                     console.log(err)
                 }
-            });
 
-            const conversation = Message.find({ conversationId: msgObject.conversationId })
-                .select('createdAt body author')
-                .sort('-createdAt')
-                .limit(10)
-                .populate('author', 'username')
-                .exec((err, messages) => {
-                    if (err) {
-                        return console.log(err);
-                    }
-                    return io.sockets.emit('refresh message', { conversation: messages });
+                const reply = new Message({
+                    conversationId: msgObject.conversationId,
+                    body: msgObject.message,
+                    author: res.id
                 });
+    
+                reply.save().then(() => {
+                    Message.find({ conversationId: msgObject.conversationId })
+                        .select('createdAt body author')
+                        .sort('createdAt')
+                        .limit(10)
+                        .populate('author', 'username')
+                        .exec((err, messages) => {
+                            if (err) {
+                                return console.log(err);
+                            }
+                            return io.sockets.emit('refresh message', { conversation: messages });
+                        });
+                });
+            });
         });
 
         socket.on('disconnect', () => {
