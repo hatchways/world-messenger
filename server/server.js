@@ -4,16 +4,23 @@ const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require("passport");
+const path = require('path');
+const io = require('socket.io')();
+const socketEvents = require('./socketEvents');
 
 // Pull in our api routes
 const users = require("./routes/api/users");
 const profiles = require("./routes/api/profiles");
 const contacts = require("./routes/api/contacts");
+const conversations = require("./routes/api/conversations");
 
 // DB Config
 const db = require("./config/keys").mongoURI;
 // Passport config
 require("./config/passport")(passport);
+
+// Define the URL path where new connections will be made to the Socket.IO server
+io.path('/socket.io');
 
 // Initialize our app
 const app = express();
@@ -42,8 +49,13 @@ app.use(passport.initialize());
 app.use("/api/users", users);
 app.use("/api/profiles", profiles);
 app.use("/api/contacts", contacts);
+app.use("/api/conversations", conversations);
 
 const port = process.env.PORT || 5000; // process.env.port is Heroku's port if you choose to deploy the app there
 
 // Set the port for our server to run on and have our app listen on this port
-app.listen(port, () => console.log(`Server up and running on port ${port} ! yeeee`));
+io.attach(app.listen(port, () => console.log(`Server up and running on port ${port} !`)));
+
+socketEvents(io);
+
+

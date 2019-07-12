@@ -14,7 +14,7 @@ const MessageSchema = new Schema({
         },
         author: {
             type: Schema.Types.ObjectId,
-            ref: 'User'
+            ref: 'users'
         },
         translated: {}
     },
@@ -22,4 +22,4 @@ const MessageSchema = new Schema({
         timestamps: true // Saves createdAt and updatedAt as dates. createdAt will be our timestamp.
     });
 
-module.exports = mongoose.model('messages', MessageSchema);
+module.exports = Message = mongoose.model('messages', MessageSchema);
