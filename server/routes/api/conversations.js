@@ -12,7 +12,7 @@ const User = require('../../models/User');
 const requireAuth = passport.authenticate('jwt', { session: false });
 
 // @route GET api/conversations/
-// @desc get user conversation based on users
+// @desc get list of conversationIds for current user
 // @access Public
 router.get("/", requireAuth, (req, res) => {
     // Only return one message from each conversation to display as snippet
