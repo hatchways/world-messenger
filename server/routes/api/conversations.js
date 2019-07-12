@@ -30,7 +30,7 @@ router.get("/", requireAuth, (req, res) => {
 
 
 // @route GET api/conversations/conversation
-// @desc get user conversation based on users
+// @desc get list of messages for a given conversation
 // @access Public
 router.get("/conversation/", requireAuth, (req, res) => {
 
