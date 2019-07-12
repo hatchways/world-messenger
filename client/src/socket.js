@@ -5,8 +5,8 @@ export default function () {
     const socket = io.connect('http://localhost:5000/socket.io');
 
     //TODO update message states
-    socket.on('refresh message', function (err, conversationId) {
-        //write something to update messages using the conversationId
+    socket.on('refresh message', function (err, conversation) {
+        //write something to use the conversation information
         console.log(err);
     });
 

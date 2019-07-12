@@ -1,3 +1,5 @@
+const Message = require('./models/Message');
+
 exports = module.exports = function (io) {
     // Set socket.io listeners.
     io.on('connection', (socket) => {
@@ -16,7 +18,21 @@ exports = module.exports = function (io) {
                     return next(err);
                 }
             });
-            io.sockets.emit('refresh message', msgObject.conversationId);
+
+            const conversation = Message.find({ conversationId: msgObject.conversationId })
+                .select('createdAt body author')
+                .sort('-createdAt')
+                .limit(10)
+                .populate('author', 'username')
+                .exec((err, messages) => {
+                    if (err) {
+                        res.send({ error: err });
+                        return next(err);
+                    }
+
+                    return res.status(200).json({ conversation: messages });
+                });
+            io.sockets.emit('refresh message', conversation);
         });
 
         socket.on('disconnect', () => {
