@@ -16,7 +16,7 @@ export default function () {
     });
 
     function message(conversationid, msg, userid, cb) {
-        socket.emit('message', { conversationId: conversationid, message: msg, userid: userid }, cb)
+        socket.emit('new message', { conversationId: conversationid, message: msg, userid: userid }, cb)
     }
 
     return {
