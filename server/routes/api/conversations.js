@@ -12,7 +12,7 @@ const User = require('../../models/User');
 const requireAuth = passport.authenticate('jwt', { session: false });
 
 // @route GET api/conversations/
-// @desc get user conversation based on users
+// @desc get list of conversationIds for current user
 // @access Public
 router.get("/", requireAuth, (req, res) => {
     // Only return one message from each conversation to display as snippet
@@ -30,7 +30,7 @@ router.get("/", requireAuth, (req, res) => {
 
 
 // @route GET api/conversations/conversation
-// @desc get user conversation based on users
+// @desc get list of messages for a given conversation
 // @access Public
 router.get("/conversation/", requireAuth, (req, res) => {
 
@@ -89,7 +89,7 @@ router.post('/new/', requireAuth, function (req, res, next) {
                 res.send({ error: err });
                 return next(err);
             }
-            return res.status(200).json({ message: 'Conversation started!', conversationId: conversation._id });
+            return res.status(200).json({ message: 'Conversation started!', conversationId: newConversation._id });
         });
     });
 
