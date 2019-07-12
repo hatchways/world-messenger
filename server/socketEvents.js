@@ -26,7 +26,6 @@ exports = module.exports = function (io) {
                 .populate('author', 'username')
                 .exec((err, messages) => {
                     if (err) {
-                        res.send({ error: err });
                         return next(err);
                     }
 

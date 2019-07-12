@@ -4,11 +4,13 @@ import io from 'socket.io-client';
 export default function () {
     const socket = io.connect('http://localhost:5000/socket.io');
 
-    //TODO update message states
-    socket.on('refresh message', function (err, conversation) {
-        //write something to use the conversation information
-        console.log(err);
-    });
+    function registerListener(cb) {
+        //TODO update message states
+        socket.on('refresh message', function (err, conversation) {
+            //write something to use the conversation information
+            console.log(err);
+        });
+    }
 
     socket.on('error', function (err) {
         console.log('received socket error:');
@@ -20,6 +22,7 @@ export default function () {
     }
 
     return {
+        registerListener,
         message
     }
 }
