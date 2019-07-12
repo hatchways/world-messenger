@@ -15,7 +15,7 @@ exports = module.exports = function (io) {
 
             reply.save((err, sentReply) => {
                 if (err) {
-                    return next(err);
+                    console.log(err)
                 }
             });
 
