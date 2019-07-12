@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const passport = require("passport");
 const path = require('path');
 const io = require('socket.io')();
+const socketEvents = require('./socketEvents');
 
 // Pull in our api routes
 const users = require("./routes/api/users");
@@ -55,10 +56,6 @@ const port = process.env.PORT || 5000; // process.env.port is Heroku's port if y
 // Set the port for our server to run on and have our app listen on this port
 io.attach(app.listen(port, () => console.log(`Server up and running on port ${port} !`)));
 
-
-// Socket events
-io.of('/').on('connection', (socket)=>{
-    console.log('New user connected: ' + socket.id);
-});
+socketEvents(io);
 
 

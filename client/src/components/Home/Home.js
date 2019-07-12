@@ -4,6 +4,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/styles";
 import axios from 'axios';
+import socket from '../../socket';
 
 import Sidebar from './Sidebar/Sidebar';
 import Chat from './Chat/Chat';
@@ -22,7 +23,8 @@ class Home extends Component {
         image: {},
         language: ''
       },
-      contacts: []
+      contacts: [],
+      client: socket()
     };
   }
 
