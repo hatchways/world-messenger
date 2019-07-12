@@ -24,6 +24,7 @@ class Home extends Component {
       },
       contacts: [],
       selected: null,
+      conversations: [],
       messages: []
     };
   }
@@ -31,6 +32,7 @@ class Home extends Component {
   componentDidMount() {
     this.getProfile();
     this.getContacts();
+    this.getConversations();
   }
 
   getProfile = () => {
@@ -122,10 +124,46 @@ class Home extends Component {
       });
   }
 
-  //TODO: make API request to get array of messages
   selectContact = index => {
-    this.setState({
-      selected: index
+    let username = this.state.contacts[index].username;
+
+    let conversation = this.state.conversations.find(curr => {
+      return curr.participants.some(val => val.username === username);
+    });
+    
+    return new Promise(resolve => {
+      if (conversation) {
+        resolve(conversation._id);
+      }
+      else {
+        axios
+          .post('api/conversations/new', {recipient: username}, {
+            headers: {
+              Authorization: this.state.token
+            }
+          })
+          .then(res => {
+            resolve(res.data.conversationId);
+          });
+      }
+    })
+    .then(conversationId => {
+      return axios({
+        method: 'get',
+        url: 'api/conversations/conversation',
+        params: {conversationId},
+        headers: {
+          Authorization: this.state.token
+        }
+      })
+      .then(res => {
+        this.receiveMessages(res.data);
+      })
+    })
+    .then(() => {
+      this.setState({
+        selected: index
+      });
     });
   }
 
@@ -156,9 +194,38 @@ class Home extends Component {
       });
   }
 
+  getConversations = () => {
+    return axios
+      .get('api/conversations', {
+        headers: {
+          Authorization: this.state.token
+        }
+      })
+      .then(res => {
+        this.setState({
+          conversations: res.data.conversations
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   //TODO: emit message event with socket.io
   sendMessage = msg => {
     console.log(msg);
+  }
+
+  receiveMessages = data => {
+    let messages = data.conversation.map(curr => ({
+      id: curr._id,
+      body: curr.body,
+      author: curr.author.username
+    }));
+
+    this.setState({
+      messages: messages
+    });
   }
 
   render() {
