@@ -29,6 +29,14 @@ exports = module.exports = function (io) {
                             if (err) {
                                 return console.log(err);
                             }
+
+                            // TODO implement translated message here
+                            // translate(msgObject.message, {to: res.language}).then(res => {
+                            //     messages.translate = res.text;
+                            // }).catch(err => {
+                            //     console.error(err);
+                            // });
+
                             return io.sockets.emit('refresh message', { conversation: messages });
                         });
                 });
