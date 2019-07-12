@@ -77,11 +77,6 @@ router.post('/new/', requireAuth, function (req, res, next) {
         return next();
     }
 
-    if (!req.body.composedMessage) {
-        res.status(422).send({ error: 'Please enter a message.' });
-        return next();
-    }
-
     User.findOne({username: req.body.recipient}, (error, userRec) => {
         if (error) {
             return console.log(`Error has occurred: ${error}`);
@@ -94,21 +89,9 @@ router.post('/new/', requireAuth, function (req, res, next) {
                 res.send({ error: err });
                 return next(err);
             }
-            const message = new Message({
-                conversationId: newConversation._id,
-                body: req.body.composedMessage,
-                author: req.user.id
-            });
-            message.save((err, newMessage) => {
-                if (err) {
-                    res.send({ error: err });
-                    return next(err);
-                }
-                return res.status(200).json({ message: 'Conversation started!', conversationId: conversation._id });
-            });
+            return res.status(200).json({ message: 'Conversation started!', conversationId: conversation._id });
         });
     });
-
 
 });
 
