@@ -89,7 +89,7 @@ router.post('/new/', requireAuth, function (req, res, next) {
                 res.send({ error: err });
                 return next(err);
             }
-            return res.status(200).json({ message: 'Conversation started!', conversationId: conversation._id });
+            return res.status(200).json({ message: 'Conversation started!', conversationId: newConversation._id });
         });
     });
 
