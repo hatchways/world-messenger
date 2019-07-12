@@ -28,10 +28,8 @@ exports = module.exports = function (io) {
                     if (err) {
                         return console.log(err);
                     }
-
                     return io.sockets.emit('refresh message', { conversation: messages });
                 });
-            io.sockets.emit('refresh message', conversation);
         });
 
         socket.on('disconnect', () => {
