@@ -24,6 +24,10 @@ class Home extends Component {
         language: ''
       },
       contacts: [],
+      selected: null,
+      conversations: [],
+      conversationId: '',
+      messages: [],
       client: socket()
     };
   }
@@ -31,6 +35,8 @@ class Home extends Component {
   componentDidMount() {
     this.getProfile();
     this.getContacts();
+    this.getConversations();
+    this.state.client.registerListener(this.receiveMessages);
   }
 
   getProfile = () => {
@@ -61,12 +67,13 @@ class Home extends Component {
         }
       })
       .then(res => {
-        let contacts = res.data.map(curr => {
+        let contacts = res.data.map((curr, index) => {
           let image = null;
           if (curr.recipient.hasOwnProperty('profile')) {
             image = curr.recipient.profile.image;
           }
           return {
+            index: index,
             username: curr.recipient.username,
             image: image,
             status: curr.status
@@ -121,6 +128,51 @@ class Home extends Component {
       });
   }
 
+  selectContact = index => {
+    let username = this.state.contacts[index].username;
+
+    let conversation = this.state.conversations.find(curr => {
+      return curr.participants.some(val => val.username === username);
+    });
+    
+    return new Promise(resolve => {
+      if (conversation) {
+        resolve(conversation._id);
+      }
+      else {
+        axios
+          .post('api/conversations/new', {recipient: username}, {
+            headers: {
+              Authorization: this.state.token
+            }
+          })
+          .then(res => {
+            resolve(res.data.conversationId);
+          });
+      }
+    })
+    .then(conversationId => {
+      this.setState({
+        conversationId
+      });
+      return axios({
+        method: 'get',
+        url: `api/conversations/conversation/${conversationId}`,
+        headers: {
+          Authorization: this.state.token
+        }
+      })
+      .then(res => {
+        this.receiveMessages(res.data);
+      })
+    })
+    .then(() => {
+      this.setState({
+        selected: index
+      });
+    });
+  }
+
   editProfile = (firstName, lastName, profileImage) => {
     return axios
       .post('api/profiles/profile', {firstName, lastName}, {
@@ -148,6 +200,43 @@ class Home extends Component {
       });
   }
 
+  getConversations = () => {
+    return axios
+      .get('api/conversations', {
+        headers: {
+          Authorization: this.state.token
+        }
+      })
+      .then(res => {
+        this.setState({
+          conversations: res.data.conversations
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  sendMessage = msg => {
+    this.state.client.sendMessage(
+      this.state.conversationId,
+      msg,
+      this.state.username
+    );
+  }
+
+  receiveMessages = data => {
+    let messages = data.conversation.map(curr => ({
+      id: curr._id,
+      body: curr.body,
+      author: curr.author.username
+    }));
+
+    this.setState({
+      messages: messages
+    });
+  }
+
   render() {
     if (!this.state.token) return <Redirect to="/login" />;
 
@@ -162,12 +251,25 @@ class Home extends Component {
           username={this.state.username}
           profile={this.state.profile}
           contacts={this.state.contacts}
+          selected={
+            this.state.selected !== null
+              ? this.state.contacts[this.state.selected].username
+              : ''
+          }
           logout={this.logout}
           editProfile={this.editProfile}
           requestContact={this.requestContact}
           updateContact={this.updateContact}
+          selectContact={this.selectContact}
         />
-        <Chat />
+        {this.state.selected !== null && 
+          <Chat 
+            username={this.state.username}
+            selected={this.state.contacts[this.state.selected]}
+            messages={this.state.messages}
+            sendMessage={this.sendMessage}
+          />
+        }
       </Grid>
     );
   }

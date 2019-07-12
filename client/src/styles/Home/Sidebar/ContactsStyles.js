@@ -1,6 +1,7 @@
 const contactsStyles = () => ({
   tabsContainer: {
-    paddingLeft: '2rem'
+    paddingLeft: '2rem',
+    width: '100%'
   },
   tabsIndicator: {
     display: 'none'
@@ -35,6 +36,7 @@ const contactsStyles = () => ({
   },
   friend: {
     paddingLeft: '2rem',
+    width: '100%',
     cursor: 'pointer',
     margin: 0,
     '&:hover': {
