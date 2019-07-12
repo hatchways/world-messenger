@@ -30,7 +30,7 @@ exports = module.exports = function (io) {
                         return next(err);
                     }
 
-                    return res.status(200).json({ conversation: messages });
+                    return io.sockets.emit('refresh message', { conversation: messages });
                 });
             io.sockets.emit('refresh message', conversation);
         });
