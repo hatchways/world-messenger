@@ -15,7 +15,6 @@ const requireAuth = passport.authenticate('jwt', { session: false });
 // @desc get list of conversationIds for current user
 // @access Public
 router.get("/", requireAuth, (req, res) => {
-    // Only return one message from each conversation to display as snippet
     Conversation.find({ participants: req.user.id })
         .select('_id')
         .populate('participants', 'username')
