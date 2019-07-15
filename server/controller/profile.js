@@ -1,27 +1,9 @@
-// Pull in dependencies
-const express = require("express");
-const router = express.Router();
-const passport = require("passport");
-const jwt = require('jsonwebtoken');
-require("../../config/passport")(passport);
-const multer = require('multer');
+// Dependencies
 const fs = require('fs');
+const User = require('../models/User');
 
-// Sets up where to store POST images
-const storage = multer.diskStorage({
-    destination: function (req, res, cb) {
-        cb(null, 'uploads/')
-    }
-});
-const upload = multer({storage: storage});
-
-// Load User model
-const User = require("../../models/User");
-
-// @route GET api/profiles/profile
-// @desc get user profile
-// @access Public
-router.get("/profile", passport.authenticate('jwt', {session: false}), (req, res) => {
+// User Routes
+exports.getUserProfile = function (req, res) {
     return User.findById(req.user.id)
         .then((user) => {
             if (!user) {
@@ -29,12 +11,9 @@ router.get("/profile", passport.authenticate('jwt', {session: false}), (req, res
             }
             return res.json({user: {profile: user.getProfile()}});
         });
-});
+};
 
-// @route POST api/profiles/profile
-// @desc edit user profile
-// @access Public
-router.post("/profile", passport.authenticate('jwt', {session: false}), (req, res) => {
+exports.updateUserProfile = function (req, res) {
     User.findByIdAndUpdate(req.user.id)
         .then((user) => {
             if (!user) {
@@ -46,12 +25,9 @@ router.post("/profile", passport.authenticate('jwt', {session: false}), (req, re
             return res.status(200).json({msg: "Profile updated"});
 
         })
-});
+};
 
-// @route GET api/profiles/image
-// @desc gets profile image
-// @access Public
-router.get("/image", passport.authenticate('jwt', {session: false}), function (req, res) {
+exports.getUserProfileImage = function (req, res) {
     User.findById(req.user.id)
         .then((user) => {
                 if (!user) {
@@ -60,12 +36,9 @@ router.get("/image", passport.authenticate('jwt', {session: false}), function (r
                 res.send(user.profile.image);
             }
         );
-});
+};
 
-// @route POST api/profiles/image
-// @desc upload profile image
-// @access Public
-router.post("/image", passport.authenticate('jwt', {session: false}), upload.single('file'), function (req, res) {
+exports.updateUserProfileImage = function (req, res) {
     User.findById(req.user.id)
         .then((user) => {
                 if (!user) {
@@ -79,7 +52,4 @@ router.post("/image", passport.authenticate('jwt', {session: false}), upload.sin
                 res.json({message: 'Profile image was updated'});
             }
         );
-});
-
-
-module.exports = router;
+};
