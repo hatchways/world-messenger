@@ -1,6 +1,6 @@
 // Dependencies
-const fs = require('fs');
-const User = require('../models/User');
+const fs = require("fs");
+const User = require("../models/User");
 
 // User Routes
 exports.getUserProfile = function (req, res) {

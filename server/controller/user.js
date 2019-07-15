@@ -1,32 +1,32 @@
-// Pull in dependencies
-const express = require("express");
-const router = express.Router();
+// Dependencies
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const keys = require("../../config/keys");
+const keys = require("../config/keys");
 
 // Load input validation
-const validateRegisterInput = require("../../validation/register");
-const validateLoginInput = require("../../validation/login");
+const validateRegisterInput = require("../validation/register");
+const validateLoginInput = require("../validation/login");
 
 // Load User model
-const User = require("../../models/User");
+const User = require("../models/User");
 
-// @route POST api/users/register
-// @desc Register user
-// @access Public
-router.post("/register", (req, res) => {
+exports.createUser = function (req, res) {
     // Form validation
-    const { errors, isValid } = validateRegisterInput(req.body);
+    const {errors, isValid} = validateRegisterInput(req.body);
 
     // Check validation
     if (!isValid) {
         return res.status(400).json(errors);
     }
 
-    User.findOne({ email: req.body.email }).then(user => {
+    User.findOne({
+        $or: [
+            {email: req.body.email},
+            {username: req.body.username}
+        ]
+    }).then(user => {
         if (user) {
-            return res.status(400).json({ msg: "E-mail address already exists" });
+            return res.status(400).json({msg: "E-mail address or username already exists"});
         } else {
             const newUser = new User({
                 username: req.body.username,
@@ -50,33 +50,26 @@ router.post("/register", (req, res) => {
             });
         }
     });
-});
+};
 
-// @route POST api/users/login
-// @desc Login user and return JWT token
-// @access Public
-router.post("/login", (req, res) => {
+exports.loginUser = function (req, res) {
     // Form validation
-
-    const { errors, isValid } = validateLoginInput(req.body);
+    const {errors, isValid} = validateLoginInput(req.body);
 
     // Check validation
     if (!isValid) {
         return res.status(400).json(errors);
     }
 
-    const email = req.body.email;
-    const password = req.body.password;
-
     // Find user by email
-    User.findOne({ email }).then(user => {
+    User.findOne({email: req.body.email}).then(user => {
         // Check if user exists
         if (!user) {
-            return res.status(404).json({ msg: "E-mail address not found" });
+            return res.status(404).json({msg: "E-mail address not found"});
         }
 
         // Check password
-        bcrypt.compare(password, user.password).then(isMatch => {
+        bcrypt.compare(req.body.password, user.password).then(isMatch => {
             if (isMatch) {
                 // User matched
                 // Create JWT Payload
@@ -103,10 +96,8 @@ router.post("/login", (req, res) => {
             } else {
                 return res
                     .status(400)
-                    .json({ msg: "Incorrect password" });
+                    .json({msg: "Incorrect password"});
             }
         });
     });
-});
-
-module.exports = router;
+};

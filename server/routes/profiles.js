@@ -1,7 +1,7 @@
 // Pull in dependencies
 const express = require("express");
 const passport = require("passport");
-const multer = require('multer');
+const multer = require("multer");
 
 // Sets up where to store POST images
 const storage = multer.diskStorage({
@@ -12,7 +12,8 @@ const storage = multer.diskStorage({
 const upload = multer({storage: storage});
 
 // Middleware to require login/auth
-const requireAuth = passport.authenticate('jwt', { session: false });
+const requireAuth = passport.authenticate('jwt', {session: false});
+
 // Controllers to be used
 const ProfileController = require('../controller/profile');
 
