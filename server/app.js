@@ -11,15 +11,12 @@ const passport = require('passport');
 const io = require('socket.io')();
 const socketEvents = require('./socket/events');
 
-const router = require('./routes/router');
-
-// Pull in our api routes
-const conversations = require("./routes/api/conversations");
-
 // DB Config
 const db = require("./config/keys").mongoURI;
 // Passport config
 require("./config/passport")(passport);
+// Pull in our api routes
+const router = require('./routes/router');
 
 // Initialize a new ExpressJS application
 const app = express();
@@ -38,9 +35,6 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Routes
-app.use("/api/conversations", conversations);
 
 // Attach socket events
 io.attach(app.listen());
