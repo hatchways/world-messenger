@@ -14,7 +14,6 @@ const socketEvents = require('./socket/events');
 const router = require('./routes/router');
 
 // Pull in our api routes
-const contacts = require("./routes/api/contacts");
 const conversations = require("./routes/api/conversations");
 
 // DB Config
@@ -41,7 +40,6 @@ app.use(passport.initialize());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-app.use("/api/contacts", contacts);
 app.use("/api/conversations", conversations);
 
 // Attach socket events

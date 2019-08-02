@@ -1,38 +1,25 @@
-// Pull in dependencies
-const express = require("express");
-const router = express.Router();
-const passport = require("passport");
-const jwt = require('jsonwebtoken');
-require("../../config/passport")(passport);
+// Dependencies
+const User = require("../models/User");
+const Contact = require("../models/Contact");
 
-// Load User model
-const User = require("../../models/User");
-const Contact = require("../../models/Contact");
-
-// @route GET api/contacts/list
-// @desc returns an array of object{username, status}
-// @access public
-router.get("/list", passport.authenticate('jwt', {session: false}), async (req, res) => {
+exports.getContacts = async function (req, res) {
     let userRequester = await User.findById(req.user.id, (error, userReq) => {
         if (error) {
             return console.log(`Error has occurred: ${error}`);
         }
         return userReq;
     });
-
     Contact.find({requester: userRequester}, {recipient: true, status: true})
         .populate('recipient', 'username profile.image')
         .then(contacts => {
-            res.json(contacts);
+            console.log(contacts);
+            return res.json(contacts);
+        }, () => {
+            return res.json({msg: "Could not get contacts"});
         });
-});
+};
 
-
-// @route POST api/contacts/request
-// @desc request contact
-// @access Public
-router.post("/request", passport.authenticate('jwt', {session: false}), async (req, res) => {
-
+exports.createRequest = async function (req, res) {
     //Get requester and recipient
     let Requester = await User.findById(req.user.id, (error, userReq) => {
         if (error) {
@@ -73,13 +60,9 @@ router.post("/request", passport.authenticate('jwt', {session: false}), async (r
         {$push: {contacts: docRecipient._id}}
     );
     return res.status(200).json({msg: "Request sent"});
-});
+};
 
-// @route POST api/contacts/accept
-// @desc accept contact
-// @access Public
-router.post("/accept", passport.authenticate('jwt', {session: false}), async (req, res) => {
-
+exports.acceptRequest = async function (req, res) {
     //Get requester and recipient
     let Requester = await User.findById(req.user.id, (error, userReq) => {
         if (error) {
@@ -103,13 +86,9 @@ router.post("/accept", passport.authenticate('jwt', {session: false}), async (re
         {$set: {status: 3}}
     );
     return res.status(200).json({msg: "Friend request accepted"});
-});
+};
 
-// @route POST api/contacts/reject
-// @desc reject contact
-// @access Public
-router.post("/reject", passport.authenticate('jwt', {session: false}), async (req, res) => {
-
+exports.rejectRequest = async function (req, res) {
     //Get requester and recipient
     let Requester = await User.findById(req.user.id, (error, userReq) => {
         if (error) {
@@ -124,10 +103,10 @@ router.post("/reject", passport.authenticate('jwt', {session: false}), async (re
         return userRec;
     });
 
-    const docA = await Friend.findOneAndRemove(
+    const docA = await Contact.findOneAndRemove(
         {requester: Requester, recipient: Recipient}
     );
-    const docB = await Friend.findOneAndRemove(
+    const docB = await Contact.findOneAndRemove(
         {recipient: Requester, requester: Recipient}
     );
     await User.findOneAndUpdate(
@@ -137,8 +116,6 @@ router.post("/reject", passport.authenticate('jwt', {session: false}), async (re
     await User.findOneAndUpdate(
         {_id: Recipient.id},
         {$pull: {contacts: docB._id}}
-    )
+    );
     return res.status(200).json({msg: "Friend request declined"});
-});
-
-module.exports = router;
+};
