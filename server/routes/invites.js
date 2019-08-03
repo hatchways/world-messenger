@@ -19,18 +19,7 @@ inviteRouter.post(
     requireAuth,
     (req, res) => {
         User.findById(req.user.id).then(user => {
-            const toEmail = req.body.toEmail;
-            const userId = user.id;
-            const username = user.username;
-            const fromEmail = user.email;
-            const result = sendSgMail(toEmail, userId, username, fromEmail);
-            return result.then(val => {
-                if (val) {
-                    res.json({ msg: 'Invite email send' });
-                } else {
-                    res.json({ msg: 'Failed to send invite email' });
-                }
-            });
+            return sendSgMail(req.body.toEmail, user.id, user.username, user.email);
         });
     }
 );
