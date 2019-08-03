@@ -1,5 +1,5 @@
 # World Messenger: Converse with anyone with any language
-
+[![CircleCI](https://circleci.com/gh/Harukine/world-messenger.svg?style=svg)](https://circleci.com/gh/Harukine/world-messenger)
 ## Intro & Goal
 A seamless UI to exchange messages between two people who speak completely different languages. 
 Think: FB Messenger with a built-in automatic translator. 
