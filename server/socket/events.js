@@ -1,5 +1,5 @@
-const User = require('./models/User');
-const Message = require('./models/Message');
+const User = require('../models/User');
+const Message = require('../models/Message');
 
 exports = module.exports = function (io) {
     // Set socket.io listeners.
@@ -18,9 +18,9 @@ exports = module.exports = function (io) {
                     body: msgObject.message,
                     author: res.id
                 });
-    
+
                 reply.save().then(() => {
-                    Message.find({ conversationId: msgObject.conversationId })
+                    Message.find({conversationId: msgObject.conversationId})
                         .select('createdAt body author')
                         .sort('createdAt')
                         .limit(10)
@@ -37,7 +37,7 @@ exports = module.exports = function (io) {
                             //     console.error(err);
                             // });
 
-                            return io.sockets.emit('refresh message', { conversation: messages });
+                            return io.sockets.emit('refresh message', {conversation: messages});
                         });
                 });
             });

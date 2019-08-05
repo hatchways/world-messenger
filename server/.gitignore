@@ -168,6 +168,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # Uploads folder
-/uploads
+/uploads/*
 
 # End of https://www.gitignore.io/api/node,linux,macos,windows,visualstudiocode
